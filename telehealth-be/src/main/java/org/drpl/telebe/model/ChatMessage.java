@@ -3,14 +3,14 @@ package org.drpl.telebe.model;
 import java.time.LocalDateTime;
 
 public class ChatMessage {
-    private String sender;         // Siapa yang mengirim (Pasien atau Dokter)
+    private String senderId;         // Siapa yang mengirim (Pasien atau Dokter)
     private String message;        // Isi pesan
     private boolean hasPrescription; // Apakah dalam pesan ini ada resep?
-    private String prescription;   // Isi resep (jika ada)
+    private Prescription prescription;   // Isi resep (jika ada)
     private LocalDateTime timestamp; // Waktu pesan dikirim
 
-    public ChatMessage(String sender, String message, boolean hasPrescription, String prescription) {
-        this.sender = sender;
+    public ChatMessage(String senderId, String message, boolean hasPrescription, Prescription prescription) {
+        this.senderId = senderId;
         this.message = message;
         this.hasPrescription = hasPrescription;
         this.prescription = hasPrescription ? prescription : null;
@@ -19,11 +19,11 @@ public class ChatMessage {
 
     // Getter & Setter
     public String getSender() {
-        return sender;
+        return senderId;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public void setSender(String senderId) {
+        this.senderId = senderId;
     }
 
     public String getMessage() {
@@ -45,11 +45,11 @@ public class ChatMessage {
         }
     }
 
-    public String getPrescription() {
+    public Prescription getPrescription() {
         return prescription;
     }
 
-    public void setPrescription(String prescription) {
+    public void setPrescription(Prescription prescription) {
         if (this.hasPrescription) {
             this.prescription = prescription;
         }
@@ -66,7 +66,7 @@ public class ChatMessage {
     @Override
     public String toString() {
         return "ChatMessage{" +
-                "sender='" + sender + '\'' +
+                "senderId='" + senderId + '\'' +
                 ", message='" + message + '\'' +
                 ", hasPrescription=" + hasPrescription +
                 ", prescription='" + prescription + '\'' +
