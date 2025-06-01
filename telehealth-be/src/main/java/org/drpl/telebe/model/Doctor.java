@@ -1,13 +1,15 @@
 package org.drpl.telebe.model;
 
-public class Doctor {
+public class Doctor extends User {
     private String specialization;
     private String license_number;
 
     public Doctor() {
+        super();
     }
 
-    public Doctor(String specialization, String license_number) {
+    public Doctor(String id, String name, String email, String alamat, Date tanggal_lahir, String specialization, String license_number) {
+        super(id, name, email, alamat, tanggal_lahir);
         this.specialization = specialization;
         this.license_number = license_number;
     }
