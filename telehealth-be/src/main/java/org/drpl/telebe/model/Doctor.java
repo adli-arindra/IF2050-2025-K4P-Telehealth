@@ -1,17 +1,31 @@
 package org.drpl.telebe.model;
 
-public class Doctor extends User {
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class Doctor {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String specialization;
     private String license_number;
 
     public Doctor() {
-        super();
     }
 
-    public Doctor(String id, String name, String email, String alamat, Date tanggal_lahir, String specialization, String license_number) {
-        super(id, name, email, alamat, tanggal_lahir);
+    public Doctor(String specialization, String license_number) {
         this.specialization = specialization;
         this.license_number = license_number;
+    }
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
     }
 
     public String getSpecialization() {
@@ -30,4 +44,3 @@ public class Doctor extends User {
         this.license_number = license_number;
     }
 }
-
