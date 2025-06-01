@@ -8,21 +8,21 @@ public abstract class User {
     private String name;
     private String email;
     private String alamat;
-    private Date tanggal_lahir;
+    private Date tanggalLahir;
 
-    public User(String id, String name, String email, String alamat, Date tanggal_lahir) {
+    public User(String id, String name, String email, String alamat, Date tanggalLahir) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.alamat = alamat;
-        this.tanggal_lahir = tanggal_lahir;
+        this.tanggalLahir = tanggalLahir;
     }
 
-    public void updateProfile(String name, String email, String alamat, Date tanggal_lahir) {
+    public void updateProfile(String name, String email, String alamat, Date tanggalLahir) {
         this.name = name;
         this.email = email;
         this.alamat = alamat;
-        this.tanggal_lahir = tanggal_lahir;
+        this.tanggalLahir = tanggalLahir;
     }
 
     // Getters and Setters
@@ -60,10 +60,10 @@ public abstract class User {
     }
 
     public Date getTanggal_lahir() {
-        return tanggal_lahir;
+        return tanggalLahir;
     }
 
-    public void setTanggal_lahir(Date tanggal_lahir) {
-        this.tanggal_lahir = tanggal_lahir;
+    public void setTanggal_lahir(Date tanggalLahir) {
+        this.tanggalLahir = tanggalLahir;
     }
 }

@@ -8,8 +8,8 @@ public class Pharmacist extends User {
 
     private List<Order> orders;
 
-    public Pharmacist(String id, String name, String email, String alamat, Date tanggal_lahir) {
-        super(id, name, email, alamat, tanggal_lahir);
+    public Pharmacist(String id, String name, String email, String alamat, Date tanggalLahir) {
+        super(id, name, email, alamat, tanggalLahir);
         this.orders = new ArrayList<>();
     }
 

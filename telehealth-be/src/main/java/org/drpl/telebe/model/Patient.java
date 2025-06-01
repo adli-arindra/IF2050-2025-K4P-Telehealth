@@ -3,7 +3,6 @@ package org.drpl.telebe.model;
 import java.util.Date;
 
 public class Patient extends User {
-
     private MedicalRecord medicalRecord;
 
     public Patient(String id, String name, String email, String alamat, Date tanggal_lahir) {
