@@ -1,32 +1,36 @@
 package org.drpl.telebe.controller;
 
+import org.drpl.telebe.model.Prescription;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/prescriptions")
 public class PrescriptionController {
 
+    // Placeholder in-memory list for prescriptions
+    private final List<Prescription> prescriptions = new ArrayList<>();
+
     @PostMapping
-    public ResponseEntity<String> createPrescription(@RequestBody String prescriptionRequest) {
-        System.out.println("Create prescription request received: " + prescriptionRequest);
-        return ResponseEntity.ok("Prescription created (placeholder)");
+    public ResponseEntity<String> createPrescription(@RequestBody Prescription prescription) {
+        prescriptions.add(prescription);
+        return ResponseEntity.ok("Prescription created");
     }
 
     @GetMapping
-    public ResponseEntity<String> getAllPrescriptions() {
-        System.out.println("Get all prescriptions request received");
-        return ResponseEntity.ok("List of prescriptions (placeholder)");
+    public ResponseEntity<List<Prescription>> getAllPrescriptions() {
+        return ResponseEntity.ok(prescriptions);
     }
 
     @GetMapping("/{prescriptionId}")
-    public ResponseEntity<String> getPrescriptionById(@PathVariable String prescriptionId) {
-        System.out.println("Get prescription by ID " + prescriptionId + " request received");
-        return ResponseEntity.ok("Prescription details for " + prescriptionId + " (placeholder)");
+    public ResponseEntity<Prescription> getPrescriptionById(@PathVariable String prescriptionId) {
+        return prescriptions.stream()
+                .filter(p -> p.getId() != null && p.getId().equals(prescriptionId))
+                .findFirst()
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }
