@@ -1,48 +1,59 @@
 package org.drpl.telebe.controller;
 
-import org.springframework.http.HttpStatus;
+import org.drpl.telebe.model.Order;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
 
+    // Placeholder in-memory list for orders
+    private final List<Order> orders = new ArrayList<>();
+
     @PostMapping
-    public ResponseEntity<String> createOrder(@RequestBody String orderCreateRequest) {
-        System.out.println("Create order request received: " + orderCreateRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Order created successfully (placeholder)");
+    public ResponseEntity<String> createOrder(@RequestBody Order order) {
+        orders.add(order);
+        return ResponseEntity.ok("Order created");
     }
 
     @GetMapping
-    public ResponseEntity<String> getAllOrders() {
-        System.out.println("Get all orders request received");
-        return ResponseEntity.ok("List of all orders (placeholder)");
+    public ResponseEntity<List<Order>> getAllOrders() {
+        return ResponseEntity.ok(orders);
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<String> getOrderById(@PathVariable String orderId) {
-        System.out.println("Get order by ID " + orderId + " request received");
-        return ResponseEntity.ok("Details for order ID: " + orderId + " (placeholder)");
+    public ResponseEntity<Order> getOrderById(@PathVariable String orderId) {
+        return orders.stream()
+                .filter(o -> o.getId() != null && o.getId().equals(orderId))
+                .findFirst()
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{orderId}")
+    public ResponseEntity<String> updateOrder(@PathVariable String orderId, @RequestBody Order updatedOrder) {
+        for (int i = 0; i < orders.size(); i++) {
+            Order order = orders.get(i);
+            if (order.getId() != null && order.getId().equals(orderId)) {
+                orders.set(i, updatedOrder);
+                return ResponseEntity.ok("Order updated");
+            }
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{orderId}/finish")
     public ResponseEntity<String> finishOrder(@PathVariable String orderId) {
-        System.out.println("Finish order request received for order ID: " + orderId);
-        return ResponseEntity.ok("Order ID: " + orderId + " finished successfully (placeholder)");
-    }
-
-    @PutMapping("/{orderId}")
-    public ResponseEntity<String> updateOrder(
-            @PathVariable String orderId,
-            @RequestBody String orderUpdateRequest) {
-        System.out.println("Update order request received for ID: " + orderId + ", data: " + orderUpdateRequest);
-        return ResponseEntity.ok("Order ID: " + orderId + " updated (placeholder)");
+        for (Order order : orders) {
+            if (order.getId() != null && order.getId().equals(orderId)) {
+                order.setStatus("finished");
+                return ResponseEntity.ok("Order finished");
+            }
+        }
+        return ResponseEntity.notFound().build();
     }
 }
