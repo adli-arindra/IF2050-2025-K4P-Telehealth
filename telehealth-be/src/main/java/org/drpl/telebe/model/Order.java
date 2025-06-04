@@ -1,36 +1,68 @@
 package org.drpl.telebe.model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.persistence.Table;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
 
+@Entity
+@Table(name = "telebe_order")
 public class Order {
-    private String id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
     private Patient patient;
+
+    @ManyToOne
+    @JoinColumn(name = "pharmacist_id")
     private Pharmacist pharmacist;
-    private List<Medicine> medicines;
-    private Date orderDate;
-    private String status;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "prescription_id", referencedColumnName = "id")
+    private Prescription prescription;
+
+    @Column(name = "order_date")
+    private LocalDateTime orderDate;
+
+    @Column(name = "is_paid")
+    private boolean isPaid;
+
+    @Column(name = "total_price")
     private BigDecimal totalPrice;
 
-    public Order() {
+    protected Order() {
     }
 
-    public Order(String id, Patient patient, Pharmacist pharmacist, List<Medicine> medicines, Date orderDate, String status, BigDecimal totalPrice) {
-        this.id = id;
+    public Order(Patient patient, Pharmacist pharmacist, Prescription prescription, LocalDateTime orderDate, boolean isPaid) {
         this.patient = patient;
         this.pharmacist = pharmacist;
-        this.medicines = medicines;
+        this.prescription = prescription;
         this.orderDate = orderDate;
-        this.status = status;
-        this.totalPrice = totalPrice;
+        this.isPaid = isPaid;
+        this.calculateTotalPrice();
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -50,35 +82,39 @@ public class Order {
         this.pharmacist = pharmacist;
     }
 
-    public List<Medicine> getMedicines() {
-        return medicines;
+    public Prescription getPrescription() {
+        return prescription;
     }
 
-    public void setMedicines(List<Medicine> medicines) {
-        this.medicines = medicines;
+    public void setPrescription(Prescription prescription) {
+        this.prescription = prescription;
     }
 
-    public Date getOrderDate() {
+    public LocalDateTime getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 
-    public String getStatus() {
-        return status;
+    public boolean isPaid() {
+        return isPaid;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setPaid(boolean paid) {
+        isPaid = paid;
     }
 
     public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
+    public void calculateTotalPrice() {
+        this.totalPrice = BigDecimal.valueOf(0);
+        for (Medicine medicine : this.prescription.getMedicines()) {
+            BigDecimal medicinePrice = BigDecimal.valueOf(medicine.getPrice());
+            totalPrice = totalPrice.add(medicinePrice);
+        }
     }
 }

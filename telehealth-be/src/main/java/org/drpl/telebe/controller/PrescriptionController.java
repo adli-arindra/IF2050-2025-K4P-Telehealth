@@ -1,36 +1,92 @@
 package org.drpl.telebe.controller;
 
+import org.drpl.telebe.dto.PrescriptionRequest;
+import org.drpl.telebe.dto.PrescriptionResponse;
 import org.drpl.telebe.model.Prescription;
+import org.drpl.telebe.model.Patient;
+import org.drpl.telebe.model.Doctor;
+import org.drpl.telebe.model.Medicine;
+import org.drpl.telebe.repository.PrescriptionRepository;
+import org.drpl.telebe.repository.PatientRepository;
+import org.drpl.telebe.repository.DoctorRepository;
+import org.drpl.telebe.repository.MedicineRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/prescriptions")
+@RequestMapping("/prescriptions")
 public class PrescriptionController {
 
-    // Placeholder in-memory list for prescriptions
-    private final List<Prescription> prescriptions = new ArrayList<>();
+    @Autowired
+    private PrescriptionRepository prescriptionRepository;
 
-    @PostMapping
-    public ResponseEntity<String> createPrescription(@RequestBody Prescription prescription) {
-        prescriptions.add(prescription);
-        return ResponseEntity.ok("Prescription created");
-    }
+    @Autowired
+    private PatientRepository patientRepository;
+
+    @Autowired
+    private DoctorRepository doctorRepository;
+
+    @Autowired
+    private MedicineRepository medicineRepository;
 
     @GetMapping
-    public ResponseEntity<List<Prescription>> getAllPrescriptions() {
-        return ResponseEntity.ok(prescriptions);
+    public List<PrescriptionResponse> getAllPrescriptions() {
+        List<Prescription> prescriptions = prescriptionRepository.findAll();
+
+        return prescriptions.stream()
+                .map(prescription -> new PrescriptionResponse(
+                        prescription.getId(),
+                        prescription.getPatient() != null ? prescription.getPatient().getId() : null,
+                        prescription.getDoctor() != null ? prescription.getDoctor().getId() : null,
+                        prescription.getMedicines(),
+                        prescription.getDate()
+                ))
+                .collect(Collectors.toList());
     }
 
-    @GetMapping("/{prescriptionId}")
-    public ResponseEntity<Prescription> getPrescriptionById(@PathVariable String prescriptionId) {
+    @PostMapping
+    public ResponseEntity<String> createPrescription(@RequestBody PrescriptionRequest request) {
+        Patient patient = patientRepository.findById(request.getPatientId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient with ID " + request.getPatientId() + " not found."));
+
+        Doctor doctor = doctorRepository.findById(request.getDoctorId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor with ID " + request.getDoctorId() + " not found."));
+
+        List<Medicine> medicinesToPersist = request.getMedicines();
+        if (medicinesToPersist != null && !medicinesToPersist.isEmpty()) {
+            medicineRepository.saveAll(medicinesToPersist);
+        }
+
+        Prescription prescription = new Prescription(
+                patient,
+                doctor,
+                medicinesToPersist,
+                LocalDateTime.now()
+        );
+
+        Prescription savedPrescription = prescriptionRepository.save(prescription);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Success");
+    }
+
+    @GetMapping("/{userId}")
+    public List<PrescriptionResponse> getPrescriptionsByUserId(@PathVariable Long userId) { // Changed return type
+        List<Prescription> prescriptions = prescriptionRepository.findByPatientIdOrDoctorId(userId, userId);
+
         return prescriptions.stream()
-                .filter(p -> p.getId() != null && p.getId().equals(prescriptionId))
-                .findFirst()
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .map(prescription -> new PrescriptionResponse(
+                        prescription.getId(),
+                        prescription.getPatient() != null ? prescription.getPatient().getId() : null,
+                        prescription.getDoctor() != null ? prescription.getDoctor().getId() : null,
+                        prescription.getMedicines(),
+                        prescription.getDate()
+                ))
+                .collect(Collectors.toList());
     }
 }

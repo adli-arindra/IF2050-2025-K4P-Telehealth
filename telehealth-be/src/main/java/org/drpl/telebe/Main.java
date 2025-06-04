@@ -1,4 +1,4 @@
-package org.drpl.telebe; // This must match the package where your Main.java is located
+package org.drpl.telebe;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
