@@ -1,5 +1,17 @@
 package org.drpl.telebe.controller;
 
+import org.drpl.telebe.dto.ChatMessageSendRequest;
+import org.drpl.telebe.dto.ChatMessageResponse;
+import org.drpl.telebe.dto.ChatSessionCreateRequest;
+import org.drpl.telebe.dto.ChatSessionResponse;
+import org.drpl.telebe.model.ChatMessage;
+import org.drpl.telebe.model.ChatSession;
+import org.drpl.telebe.model.User;
+import org.drpl.telebe.repository.ChatMessageRepository;
+import org.drpl.telebe.repository.ChatSessionRepository;
+import org.drpl.telebe.repository.UserRepository;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,34 +19,131 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/chat")
+@RequestMapping("/chat")
 public class ChatController {
 
+    private final ChatSessionRepository chatSessionRepository;
+    private final ChatMessageRepository chatMessageRepository;
+    private final UserRepository userRepository;
+
+    public ChatController(ChatSessionRepository chatSessionRepository,
+                          ChatMessageRepository chatMessageRepository,
+                          UserRepository userRepository) {
+        this.chatSessionRepository = chatSessionRepository;
+        this.chatMessageRepository = chatMessageRepository;
+        this.userRepository = userRepository;
+    }
+
     @PostMapping("/session")
-    public ResponseEntity<String> createChatSession(@RequestBody String chatSessionRequest) {
-        System.out.println("Create chat session request received: " + chatSessionRequest);
-        return ResponseEntity.ok("Chat session created (placeholder)");
+    public ResponseEntity<ChatSessionResponse> createChatSession(@RequestBody ChatSessionCreateRequest request) {
+        ChatSession newSession = new ChatSession(request.getSessionName());
+
+        Set<User> participants = new HashSet<>();
+        if (request.getParticipantIds() != null && !request.getParticipantIds().isEmpty()) {
+            for (Long userId : request.getParticipantIds()) {
+                User user = userRepository.findById(userId)
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with ID: " + userId));
+                participants.add(user);
+            }
+        }
+        newSession.setUsers(participants);
+
+        ChatSession savedSession = chatSessionRepository.save(newSession);
+
+        List<Long> participantIds = savedSession.getUsers().stream()
+                .map(User::getId)
+                .collect(Collectors.toList());
+        ChatSessionResponse response = new ChatSessionResponse(
+                savedSession.getId(),
+                savedSession.getSessionName(),
+                savedSession.getCreatedDate(),
+                participantIds
+        );
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PostMapping("/{sessionId}/message")
-    public ResponseEntity<String> sendMessage(
-            @PathVariable String sessionId,
-            @RequestBody String chatMessageRequest) {
-        System.out.println("Send message in session " + sessionId + " request received: " + chatMessageRequest);
-        return ResponseEntity.ok("Message sent (placeholder)");
+    public ResponseEntity<ChatMessageResponse> sendMessage(
+            @PathVariable Long sessionId,
+            @RequestBody ChatMessageSendRequest request) {
+
+        ChatSession chatSession = chatSessionRepository.findById(sessionId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Chat Session not found with ID: " + sessionId));
+
+        User sender = userRepository.findById(request.getSenderId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sender User not found with ID: " + request.getSenderId()));
+
+        ChatMessage newMessage = new ChatMessage(
+                chatSession,
+                sender,
+                request.getMessage(),
+                request.isHasPrescription(),
+                null
+        );
+        newMessage.setTimestamp(LocalDateTime.now());
+
+        chatSession.addMessage(newMessage);
+        chatSessionRepository.save(chatSession);
+
+        ChatMessageResponse response = new ChatMessageResponse(
+                newMessage.getId(),
+                newMessage.getSender() != null ? newMessage.getSender().getId() : null,
+                newMessage.getMessage(),
+                newMessage.getHasPrescription(),
+                newMessage.getPrescription() != null ? newMessage.getPrescription().getId() : null,
+                newMessage.getTimestamp()
+        );
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{sessionId}/messages")
-    public ResponseEntity<String> getChatMessages(@PathVariable String sessionId) {
-        System.out.println("Get messages for session " + sessionId + " request received");
-        return ResponseEntity.ok("List of chat messages (placeholder)");
+    public ResponseEntity<List<ChatMessageResponse>> getChatMessages(@PathVariable Long sessionId) {
+        ChatSession chatSession = chatSessionRepository.findById(sessionId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Chat Session not found with ID: " + sessionId));
+
+        List<ChatMessageResponse> messages = chatSession.getMessages().stream()
+                .map(msg -> new ChatMessageResponse(
+                        msg.getId(),
+                        msg.getSender() != null ? msg.getSender().getId() : null,
+                        msg.getMessage(),
+                        msg.getHasPrescription(),
+                        msg.getPrescription() != null ? msg.getPrescription().getId() : null,
+                        msg.getTimestamp()
+                ))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(messages);
     }
 
     @GetMapping("/sessions")
-    public ResponseEntity<String> getUserChatSessions() {
-        System.out.println("Get user chat sessions request received");
-        return ResponseEntity.ok("List of user chat sessions (placeholder)");
+    public ResponseEntity<List<ChatSessionResponse>> getUserChatSessions() {
+        List<ChatSession> sessions = chatSessionRepository.findAll();
+
+        List<ChatSessionResponse> responses = sessions.stream()
+                .map(session -> {
+                    List<Long> participantIds = session.getUsers().stream()
+                            .map(User::getId)
+                            .collect(Collectors.toList());
+                    return new ChatSessionResponse(
+                            session.getId(),
+                            session.getSessionName(),
+                            session.getCreatedDate(),
+                            participantIds
+                    );
+                })
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(responses);
     }
 }

@@ -1,31 +1,24 @@
 package org.drpl.telebe.model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Pharmacist extends User {
 
-    private List<Order> orders;
+    @OneToMany(mappedBy = "pharmacist", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders = new ArrayList<>();
 
-    public Pharmacist(String id, String name, String email, String alamat, Date tanggalLahir) {
-        super(id, name, email, alamat, tanggalLahir);
-        this.orders = new ArrayList<>();
+    protected Pharmacist() {
     }
 
-    public List<Order> getOrder() {
-        return orders;
+    public Pharmacist(String name, String email, String hashedPassword, String alamat, Date tanggalLahir) {
+        super(name, email, hashedPassword, alamat, tanggalLahir);
     }
-
-    public void addOrder(Order order) {
-        this.orders.add(order);
-    }
-
-    public void finishOrder(Order order) {
-        this.orders.remove(order);
-    }
-
-    // Getters and Setters
 
     public List<Order> getOrders() {
         return orders;
@@ -33,5 +26,15 @@ public class Pharmacist extends User {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public void addOrder(Order order) {
+        this.orders.add(order);
+        order.setPharmacist(this);
+    }
+
+    public void removeOrder(Order order) {
+        this.orders.remove(order);
+        order.setPharmacist(null);
     }
 }

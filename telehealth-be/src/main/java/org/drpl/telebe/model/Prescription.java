@@ -1,33 +1,66 @@
 package org.drpl.telebe.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.persistence.Table;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GenerationType;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Entity
+@Table(name = "prescription")
 public class Prescription {
-    private String id;
-    private Patient patient;
-    private Doctor doctor;
-    private List<Medicine> medicines;
-    private Date date;
-    private String instructions;
 
-    public Prescription() {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "prescription_medicine",
+            joinColumns = @JoinColumn(name = "prescription_id"),
+            inverseJoinColumns = @JoinColumn(name = "medicine_id")
+    )
+    @JsonManagedReference
+    private List<Medicine> medicines = new ArrayList<>();
+
+    @Temporal(TemporalType.DATE)
+    private Date date;
+
+    protected Prescription() {
     }
 
-    public Prescription(String id, Patient patient, Doctor doctor, List<Medicine> medicines, Date date, String instructions) {
-        this.id = id;
+    public Prescription(Patient patient, Doctor doctor, List<Medicine> medicines, Date date) {
         this.patient = patient;
         this.doctor = doctor;
         this.medicines = medicines;
         this.date = date;
-        this.instructions = instructions;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -61,13 +94,5 @@ public class Prescription {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public String getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
     }
 }

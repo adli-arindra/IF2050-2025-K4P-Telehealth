@@ -1,46 +1,34 @@
 package org.drpl.telebe.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import org.drpl.telebe.dto.DoctorSpecializationType;
+
+import java.util.Date;
 
 @Entity
-public class Doctor {
+public class Doctor extends User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "specialization")
+    private DoctorSpecializationType specialization;
 
-    private String specialization;
-    private String license_number;
-
-    public Doctor() {
+    protected Doctor() {
     }
 
-    public Doctor(String specialization, String license_number) {
+    public Doctor(String name, String email, String hashedPassword, String alamat, Date tanggalLahir,
+                  DoctorSpecializationType specialization) {
+        super(name, email, hashedPassword, alamat, tanggalLahir);
         this.specialization = specialization;
-        this.license_number = license_number;
     }
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public String getSpecialization() {
+    public DoctorSpecializationType getSpecialization() {
         return specialization;
     }
 
-    public void setSpecialization(String specialization) {
+    public void setSpecialization(DoctorSpecializationType specialization) {
         this.specialization = specialization;
-    }
-
-    public String getLicense_number() {
-        return license_number;
-    }
-
-    public void setLicense_number(String license_number) {
-        this.license_number = license_number;
     }
 }

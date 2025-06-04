@@ -1,30 +1,35 @@
 package org.drpl.telebe.model;
 
-import java.math.BigDecimal;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "medicine")
 public class Medicine {
-    private String id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String name;
     private String description;
     private String dosage;
-    private BigDecimal price;
+    private double price;
 
-    public Medicine() {
+    protected Medicine() {
     }
 
-    public Medicine(String id, String name, String description, String dosage, BigDecimal price) {
-        this.id = id;
+    public Medicine(String name, String description, String dosage, double price) {
         this.name = name;
         this.description = description;
         this.dosage = dosage;
         this.price = price;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -52,11 +57,11 @@ public class Medicine {
         this.dosage = dosage;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 }
