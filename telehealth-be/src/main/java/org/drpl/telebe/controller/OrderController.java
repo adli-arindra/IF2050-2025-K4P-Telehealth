@@ -10,7 +10,6 @@ import org.drpl.telebe.repository.PharmacistRepository;
 import org.drpl.telebe.repository.PrescriptionRepository;
 import org.drpl.telebe.dto.OrderResponse;
 import org.drpl.telebe.dto.OrderRequest;
-import org.drpl.telebe.utils.CurrentDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -61,7 +61,7 @@ public class OrderController {
                 patient,
                 pharmacist,
                 prescription,
-                CurrentDate.get(),
+                LocalDateTime.now(),
                 request.getIsPaid()
         );
 
@@ -105,7 +105,7 @@ public class OrderController {
             existingOrder.setPatient(patient);
             existingOrder.setPharmacist(pharmacist);
             existingOrder.setPrescription(prescription);
-            existingOrder.setOrderDate(CurrentDate.get());
+            existingOrder.setOrderDate(LocalDateTime.now());
             existingOrder.setPaid(request.getIsPaid());
             existingOrder.calculateTotalPrice();
 

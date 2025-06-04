@@ -2,6 +2,7 @@ package org.drpl.telebe.dto;
 
 import org.drpl.telebe.model.Order;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class OrderResponse {
@@ -9,8 +10,8 @@ public class OrderResponse {
     private Long patientId;
     private Long pharmacistId;
     private PrescriptionResponse prescription;
-    private Date orderDate;
-    private boolean isPaid; // Changed to boolean
+    private LocalDateTime orderDate;
+    private boolean isPaid;
     private BigDecimal totalPrice;
 
     public OrderResponse(Order order) {
@@ -50,7 +51,7 @@ public class OrderResponse {
         return prescription;
     }
 
-    public Date getOrderDate() {
+    public LocalDateTime getOrderDate() {
         return orderDate;
     }
 
@@ -78,7 +79,7 @@ public class OrderResponse {
         this.prescription = prescription;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 

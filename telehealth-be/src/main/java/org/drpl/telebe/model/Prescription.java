@@ -14,8 +14,9 @@ import jakarta.persistence.TemporalType;
 import jakarta.persistence.Table;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GenerationType;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -43,13 +44,12 @@ public class Prescription {
     @JsonManagedReference
     private List<Medicine> medicines = new ArrayList<>();
 
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    private LocalDateTime date;
 
     protected Prescription() {
     }
 
-    public Prescription(Patient patient, Doctor doctor, List<Medicine> medicines, Date date) {
+    public Prescription(Patient patient, Doctor doctor, List<Medicine> medicines, LocalDateTime date) {
         this.patient = patient;
         this.doctor = doctor;
         this.medicines = medicines;
@@ -88,11 +88,11 @@ public class Prescription {
         this.medicines = medicines;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 }

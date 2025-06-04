@@ -13,6 +13,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -35,9 +37,8 @@ public class Order {
     @JoinColumn(name = "prescription_id", referencedColumnName = "id")
     private Prescription prescription;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "order_date")
-    private Date orderDate;
+    private LocalDateTime orderDate;
 
     @Column(name = "is_paid")
     private boolean isPaid;
@@ -48,7 +49,7 @@ public class Order {
     protected Order() {
     }
 
-    public Order(Patient patient, Pharmacist pharmacist, Prescription prescription, Date orderDate, boolean isPaid) {
+    public Order(Patient patient, Pharmacist pharmacist, Prescription prescription, LocalDateTime orderDate, boolean isPaid) {
         this.patient = patient;
         this.pharmacist = pharmacist;
         this.prescription = prescription;
@@ -89,11 +90,11 @@ public class Order {
         this.prescription = prescription;
     }
 
-    public Date getOrderDate() {
+    public LocalDateTime getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 

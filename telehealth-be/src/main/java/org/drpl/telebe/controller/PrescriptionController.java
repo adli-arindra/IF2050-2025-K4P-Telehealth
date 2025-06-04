@@ -10,13 +10,13 @@ import org.drpl.telebe.repository.PrescriptionRepository;
 import org.drpl.telebe.repository.PatientRepository;
 import org.drpl.telebe.repository.DoctorRepository;
 import org.drpl.telebe.repository.MedicineRepository;
-import org.drpl.telebe.utils.CurrentDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,7 +68,7 @@ public class PrescriptionController {
                 patient,
                 doctor,
                 medicinesToPersist,
-                CurrentDate.get()
+                LocalDateTime.now()
         );
 
         Prescription savedPrescription = prescriptionRepository.save(prescription);

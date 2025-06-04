@@ -1,6 +1,8 @@
 package org.drpl.telebe.dto;
 
 import org.drpl.telebe.model.Medicine;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -9,9 +11,9 @@ public class PrescriptionResponse {
     private Long patientId;
     private Long doctorId;
     private List<Medicine> medicines;
-    private Date date;
+    private LocalDateTime date;
 
-    public PrescriptionResponse(Long id, Long patientId, Long doctorId, List<Medicine> medicines, Date date) {
+    public PrescriptionResponse(Long id, Long patientId, Long doctorId, List<Medicine> medicines, LocalDateTime date) {
         this.id = id;
         this.patientId = patientId;
         this.doctorId = doctorId;
@@ -35,7 +37,7 @@ public class PrescriptionResponse {
         return medicines;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
@@ -55,7 +57,7 @@ public class PrescriptionResponse {
         this.medicines = medicines;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 }

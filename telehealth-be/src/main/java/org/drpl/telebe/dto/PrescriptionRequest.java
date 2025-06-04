@@ -1,7 +1,6 @@
 package org.drpl.telebe.dto;
 
 import org.drpl.telebe.model.Medicine;
-import java.util.Date;
 import java.util.List;
 
 public class PrescriptionRequest {
