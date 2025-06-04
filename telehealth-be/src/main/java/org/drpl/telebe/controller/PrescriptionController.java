@@ -10,6 +10,7 @@ import org.drpl.telebe.repository.PrescriptionRepository;
 import org.drpl.telebe.repository.PatientRepository;
 import org.drpl.telebe.repository.DoctorRepository;
 import org.drpl.telebe.repository.MedicineRepository;
+import org.drpl.telebe.utils.CurrentDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +52,7 @@ public class PrescriptionController {
     }
 
     @PostMapping
-    public ResponseEntity<Prescription> createPrescription(@RequestBody PrescriptionRequest request) {
+    public ResponseEntity<String> createPrescription(@RequestBody PrescriptionRequest request) {
         Patient patient = patientRepository.findById(request.getPatientId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient with ID " + request.getPatientId() + " not found."));
 
@@ -67,11 +68,11 @@ public class PrescriptionController {
                 patient,
                 doctor,
                 medicinesToPersist,
-                request.getDate()
+                CurrentDate.get()
         );
 
         Prescription savedPrescription = prescriptionRepository.save(prescription);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedPrescription);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Success");
     }
 
     @GetMapping("/{userId}")

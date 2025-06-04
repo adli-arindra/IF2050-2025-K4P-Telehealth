@@ -10,6 +10,8 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.Table;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -18,6 +20,7 @@ import java.util.Date;
 public class Order {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -36,7 +39,8 @@ public class Order {
     @Column(name = "order_date")
     private Date orderDate;
 
-    private String status;
+    @Column(name = "is_paid")
+    private boolean isPaid;
 
     @Column(name = "total_price")
     private BigDecimal totalPrice;
@@ -44,14 +48,13 @@ public class Order {
     protected Order() {
     }
 
-    public Order(Long id, Patient patient, Pharmacist pharmacist, Prescription prescription, Date orderDate, String status, BigDecimal totalPrice) {
-        this.id = id;
+    public Order(Patient patient, Pharmacist pharmacist, Prescription prescription, Date orderDate, boolean isPaid) {
         this.patient = patient;
         this.pharmacist = pharmacist;
         this.prescription = prescription;
         this.orderDate = orderDate;
-        this.status = status;
-        this.totalPrice = totalPrice;
+        this.isPaid = isPaid;
+        this.calculateTotalPrice();
     }
 
     public Long getId() {
@@ -94,19 +97,23 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public String getStatus() {
-        return status;
+    public boolean isPaid() {
+        return isPaid;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setPaid(boolean paid) {
+        isPaid = paid;
     }
 
     public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
+    public void calculateTotalPrice() {
+        this.totalPrice = BigDecimal.valueOf(0);
+        for (Medicine medicine : this.prescription.getMedicines()) {
+            BigDecimal medicinePrice = BigDecimal.valueOf(medicine.getPrice());
+            totalPrice = totalPrice.add(medicinePrice);
+        }
     }
 }

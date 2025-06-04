@@ -8,7 +8,6 @@ public class PrescriptionRequest {
     private Long patientId;
     private Long doctorId;
     private List<Medicine> medicines;
-    private Date date;
 
     public Long getPatientId() {
         return patientId;
@@ -32,13 +31,5 @@ public class PrescriptionRequest {
 
     public void setMedicines(List<Medicine> medicines) {
         this.medicines = medicines;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 }
