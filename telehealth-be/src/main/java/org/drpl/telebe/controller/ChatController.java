@@ -73,7 +73,7 @@ public class ChatController {
     }
 
     @PostMapping("/{sessionId}/message")
-    public ResponseEntity<ChatMessageResponse> sendMessage(
+    public ResponseEntity<String> sendMessage(
             @PathVariable Long sessionId,
             @RequestBody ChatMessageSendRequest request) {
 
@@ -104,7 +104,7 @@ public class ChatController {
                 newMessage.getTimestamp()
         );
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Message sent");
     }
 
     @GetMapping("/{sessionId}/messages")
