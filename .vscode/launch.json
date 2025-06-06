@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-Main<telehealth-be>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "org.drpl.telebe.Main",
+            "projectName": "telehealth-be",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
