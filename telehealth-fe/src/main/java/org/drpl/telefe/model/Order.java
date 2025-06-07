@@ -1,124 +1,80 @@
-// Impor React dan useState untuk mengelola state input
-import React, { useState } from 'react';
+package org.drpl.telefe.model;
 
-const OrderForm = ({ onSubmit }) => {
-  // State untuk menyimpan data form order
-  const [formData, setFormData] = useState({
-    patientId: '',         // ID pasien (relasi ke tabel Patient)
-    pharmacistId: '',      // ID apoteker (relasi ke tabel Pharmacist)
-    prescriptionId: '',    // ID resep yang berisi daftar obat
-    orderDate: '',         // Tanggal dan waktu pemesanan
-    isPaid: false          // Status pembayaran
-  });
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
-  // Fungsi untuk menangani perubahan pada input form
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+public class Order {
+    private Long id;
+    private Long patientId;
+    private Long pharmacistId;
+    private Prescription prescription;
+    private LocalDateTime orderDate;
+    private boolean isPaid;
+    private BigDecimal totalPrice;
 
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: type === 'checkbox' ? checked : value // handle checkbox vs text input
-    }));
-  };
+    public Order(Long id, Long patientId, Long pharmacistId, Prescription prescription, LocalDateTime orderDate, boolean isPaid, BigDecimal totalPrice) {
+        this.id = id;
+        this.patientId = patientId;
+        this.pharmacistId = pharmacistId;
+        this.prescription = prescription;
+        this.orderDate = orderDate;
+        this.isPaid = isPaid;
+        this.totalPrice = totalPrice;
+    }
 
-  // Fungsi untuk submit form
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    public Long getId() {
+        return id;
+    }
 
-    // Lakukan parsing jika diperlukan (misalnya orderDate ke ISO string)
-    const parsedData = {
-      ...formData,
-      orderDate: new Date(formData.orderDate).toISOString()
-    };
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    // Kirim data ke handler luar (props)
-    onSubmit(parsedData);
+    public Long getPatientId() {
+        return patientId;
+    }
 
-    // Reset form setelah submit
-    setFormData({
-      patientId: '',
-      pharmacistId: '',
-      prescriptionId: '',
-      orderDate: '',
-      isPaid: false
-    });
-  };
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
+    }
 
-  return (
-    // Form UI
-    <form onSubmit={handleSubmit} className="p-4 bg-white rounded shadow-md max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">Form Pemesanan Obat</h2>
+    public Long getPharmacistId() {
+        return pharmacistId;
+    }
 
-      {/* Input ID Pasien */}
-      <label className="block mb-2">
-        ID Pasien:
-        <input
-          type="text"
-          name="patientId"
-          value={formData.patientId}
-          onChange={handleChange}
-          className="w-full border border-gray-300 rounded p-2"
-          required
-        />
-      </label>
+    public void setPharmacistId(Long pharmacistId) {
+        this.pharmacistId = pharmacistId;
+    }
 
-      {/* Input ID Apoteker */}
-      <label className="block mb-2">
-        ID Apoteker:
-        <input
-          type="text"
-          name="pharmacistId"
-          value={formData.pharmacistId}
-          onChange={handleChange}
-          className="w-full border border-gray-300 rounded p-2"
-          required
-        />
-      </label>
+    public Prescription getPrescription() {
+        return prescription;
+    }
 
-      {/* Input ID Resep */}
-      <label className="block mb-2">
-        ID Resep:
-        <input
-          type="text"
-          name="prescriptionId"
-          value={formData.prescriptionId}
-          onChange={handleChange}
-          className="w-full border border-gray-300 rounded p-2"
-          required
-        />
-      </label>
+    public void setPrescription(Prescription prescription) {
+        this.prescription = prescription;
+    }
 
-      {/* Input Tanggal dan Jam Pemesanan */}
-      <label className="block mb-2">
-        Tanggal Pemesanan:
-        <input
-          type="datetime-local"
-          name="orderDate"
-          value={formData.orderDate}
-          onChange={handleChange}
-          className="w-full border border-gray-300 rounded p-2"
-          required
-        />
-      </label>
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
 
-      {/* Checkbox Status Pembayaran */}
-      <label className="block mb-4">
-        <input
-          type="checkbox"
-          name="isPaid"
-          checked={formData.isPaid}
-          onChange={handleChange}
-          className="mr-2"
-        />
-        Sudah Dibayar?
-      </label>
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
+    }
 
-      {/* Tombol Submit */}
-      <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-        Simpan Order
-      </button>
-    </form>
-  );
-};
+    public boolean isPaid() {
+        return isPaid;
+    }
 
-export default OrderForm;
+    public void setPaid(boolean paid) {
+        isPaid = paid;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+}
