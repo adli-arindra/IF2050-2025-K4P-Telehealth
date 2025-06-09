@@ -1,9 +1,9 @@
 package org.drpl.telefe.fetcher;
 
-import org.drpl.telefe.model.ChatMessageSendRequest;
-import org.drpl.telefe.model.ChatSessionCreateRequest;
-import org.drpl.telefe.model.ChatSessionResponse;
-import org.drpl.telefe.model.ChatMessageResponse;
+import org.drpl.telefe.dto.ChatMessageSendRequest;
+import org.drpl.telefe.dto.ChatSessionCreateRequest;
+import org.drpl.telefe.dto.ChatSessionResponse;
+import org.drpl.telefe.dto.ChatMessageResponse;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

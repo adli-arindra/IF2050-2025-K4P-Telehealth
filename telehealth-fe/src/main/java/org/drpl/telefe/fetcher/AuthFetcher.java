@@ -1,68 +1,125 @@
 package org.drpl.telefe.fetcher;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.drpl.telefe.dto.*;
 import org.drpl.telefe.model.User;
-import org.drpl.telefe.dto.AuthRequest;
-import org.drpl.telefe.dto.UserProfileResponse;
+import org.drpl.telefe.Global;
+import org.drpl.telefe.utils.HttpUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.Date;
+import java.util.List;
 
 public class AuthFetcher {
 
-    private static final String BASE_URL = "http://localhost:8080/auth";
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final String BASE_URL = Global.BASE_URL + "/auth";
+    private final ObjectMapper objectMapper = Global.getObjectMapper();
 
     public User login(String email, String password) throws IOException {
         AuthRequest request = new AuthRequest(email, password);
         String jsonRequest = objectMapper.writeValueAsString(request);
 
-        HttpURLConnection conn = createConnection(BASE_URL + "/login", "POST");
-        writeRequestBody(conn, jsonRequest);
+        HttpURLConnection conn = HttpUtils.createConnection(BASE_URL + "/login", "POST");
+        HttpUtils.writeRequestBody(conn, jsonRequest);
 
         int status = conn.getResponseCode();
         if (status == 200) {
-            return objectMapper.readValue(conn.getInputStream(), User.class);
+            return objectMapper.readValue(HttpUtils.readResponse(conn), User.class);
         } else {
-            throw new IOException("Login failed with status: " + status + " - " + readError(conn));
+            throw new IOException("Login failed with status: " + status + " - " + HttpUtils.readError(conn));
         }
     }
 
-    public UserProfileResponse register(String endpoint, Object signUpRequest) throws IOException {
+    public User register(DoctorSignUpRequest signUpRequest) throws IOException {
         String jsonRequest = objectMapper.writeValueAsString(signUpRequest);
 
-        HttpURLConnection conn = createConnection(BASE_URL + endpoint, "POST");
-        writeRequestBody(conn, jsonRequest);
+        HttpURLConnection conn = HttpUtils.createConnection(BASE_URL + "/register/doctor", "POST");
+        HttpUtils.writeRequestBody(conn, jsonRequest);
 
         int status = conn.getResponseCode();
         if (status == 201) {
-            return objectMapper.readValue(conn.getInputStream(), UserProfileResponse.class);
+            return objectMapper.readValue(HttpUtils.readResponse(conn), User.class);
         } else {
-            throw new IOException("Registration failed with status: " + status + " - " + readError(conn));
+            throw new IOException("Registration failed with status: " + status + " - " + HttpUtils.readError(conn));
         }
     }
 
-    private HttpURLConnection createConnection(String urlStr, String method) throws IOException {
-        URL url = new URL(urlStr);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod(method);
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setDoOutput(true);
-        return conn;
-    }
+    public User register(PatientSignUpRequest signUpRequest) throws IOException {
+        String jsonRequest = objectMapper.writeValueAsString(signUpRequest);
 
-    private void writeRequestBody(HttpURLConnection conn, String json) throws IOException {
-        try (OutputStream os = conn.getOutputStream()) {
-            os.write(json.getBytes());
-            os.flush();
+        HttpURLConnection conn = HttpUtils.createConnection(BASE_URL + "/register/patient", "POST");
+        HttpUtils.writeRequestBody(conn, jsonRequest);
+
+        int status = conn.getResponseCode();
+        if (status == 201) {
+            return objectMapper.readValue(HttpUtils.readResponse(conn), User.class);
+        } else {
+            throw new IOException("Registration failed with status: " + status + " - " + HttpUtils.readError(conn));
         }
     }
 
-    private String readError(HttpURLConnection conn) throws IOException {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getErrorStream()))) {
-            return br.readLine();
+    public User register(PharmacistSignUpRequest signUpRequest) throws IOException {
+        String jsonRequest = objectMapper.writeValueAsString(signUpRequest);
+
+        HttpURLConnection conn = HttpUtils.createConnection(BASE_URL + "/register/pharmacist", "POST");
+        HttpUtils.writeRequestBody(conn, jsonRequest);
+
+        int status = conn.getResponseCode();
+        if (status == 201) {
+            return objectMapper.readValue(HttpUtils.readResponse(conn), User.class);
+        } else {
+            throw new IOException("Registration failed with status: " + status + " - " + HttpUtils.readError(conn));
+        }
+    }
+
+    public List<User> getUsers() throws IOException {
+        HttpURLConnection conn = HttpUtils.createConnection(BASE_URL + "/users", "GET");
+
+        int status = conn.getResponseCode();
+        if (status == 200) {
+            String jsonResponse = HttpUtils.readResponse(conn);
+            return objectMapper.readValue(jsonResponse, new TypeReference<List<User>>() {});
+        } else {
+            throw new IOException("Failed to fetch users with status: " + status + " - " + HttpUtils.readError(conn));
+        }
+    }
+
+    public User getUserById(long id) throws IOException {
+        String url = BASE_URL + "/profile/" + id;
+        HttpURLConnection conn = HttpUtils.createConnection(url, "GET");
+
+        int status = conn.getResponseCode();
+        if (status == 200) {
+            String jsonResponse = HttpUtils.readResponse(conn);
+            return objectMapper.readValue(jsonResponse, User.class);
+        } else {
+            throw new IOException("Failed to fetch user by ID " + id + " with status: " + status + " - " + HttpUtils.readError(conn));
+        }
+    }
+
+    public static void main(String[] args) {
+        AuthFetcher fetcher = new AuthFetcher();
+
+        try {
+            long userIdToFetch = 1L;
+            User fetchedUser = fetcher.getUserById(userIdToFetch);
+            System.out.println("Fetched User by ID " + userIdToFetch + ": " + fetchedUser);
+
+            List<User> users = fetcher.getUsers();
+            System.out.println("\nAll Users:");
+            for (User user : users) {
+                System.out.println(" - " + user);
+            }
+
+        } catch (IOException e) {
+            System.err.println("Error: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("An unexpected error occurred: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

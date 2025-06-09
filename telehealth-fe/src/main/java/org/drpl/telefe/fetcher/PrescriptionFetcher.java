@@ -3,8 +3,8 @@ package org.drpl.telefe.fetcher;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.drpl.telefe.model.PrescriptionRequest;
-import org.drpl.telefe.model.PrescriptionResponse;
+import org.drpl.telefe.dto.PrescriptionRequest;
+import org.drpl.telefe.dto.PrescriptionResponse;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

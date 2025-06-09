@@ -16,7 +16,7 @@ public class AuthRequest {
         return this.email;
     }
 
-    public String GetPassword() {
+    public String getPassword() {
         return this.password;
     }
 
