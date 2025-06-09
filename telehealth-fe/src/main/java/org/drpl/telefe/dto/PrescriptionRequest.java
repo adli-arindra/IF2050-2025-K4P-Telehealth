@@ -9,6 +9,8 @@ public class PrescriptionRequest {
     private Long doctorId;
     private List<Medicine> medicines;
 
+    public PrescriptionRequest() { }
+
     public PrescriptionRequest(Long patientId, Long doctorId, List<Medicine> medicines) {
         this.patientId = patientId;
         this.doctorId = doctorId;

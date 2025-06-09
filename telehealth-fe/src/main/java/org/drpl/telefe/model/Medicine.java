@@ -3,7 +3,6 @@ package org.drpl.telefe.model;
 import java.math.BigDecimal;
 
 public class Medicine {
-    private Long id;
     private String name;
     private String description;
     private String dosage;
@@ -11,8 +10,12 @@ public class Medicine {
 
     public Medicine() {}
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Medicine(String name, String description, String dosage, BigDecimal price) {
+        this.name = name;
+        this.description = description;
+        this.dosage = dosage;
+        this.price = price;
+    }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -28,6 +31,6 @@ public class Medicine {
 
     @Override
     public String toString() {
-        return "Medicine{" + "id=" + id + ", name='" + name + '\'' + ", dosage='" + dosage + '\'' + '}';
+        return "Medicine{" + ", name='" + name + '\'' + ", dosage='" + dosage + '\'' + '}';
     }
 }
