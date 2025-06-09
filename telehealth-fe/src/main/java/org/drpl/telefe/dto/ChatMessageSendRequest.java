@@ -1,4 +1,4 @@
-package org.drpl.telefe.model;
+package org.drpl.telefe.dto;
 
 public class ChatMessageSendRequest {
     private Long senderId;

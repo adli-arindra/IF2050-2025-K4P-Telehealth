@@ -12,7 +12,6 @@ public class UserProfileResponse {
     public UserProfileResponse() {
     }
 
-    // Getters and setters
     public Long getId() {
         return this.id;
     }

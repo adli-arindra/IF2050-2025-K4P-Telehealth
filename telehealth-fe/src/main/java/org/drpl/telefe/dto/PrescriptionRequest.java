@@ -1,4 +1,6 @@
-package org.drpl.telefe.model;
+package org.drpl.telefe.dto;
+
+import org.drpl.telefe.model.Medicine;
 
 import java.util.List;
 
