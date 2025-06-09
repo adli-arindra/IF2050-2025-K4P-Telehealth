@@ -3,7 +3,7 @@ package org.drpl.telebe.dto;
 public class ChatMessageSendRequest {
     private Long senderId;
     private String message;
-    private boolean hasPrescription;
+    private Long prescriptionId;
 
     public Long getSenderId() {
         return senderId;
@@ -21,11 +21,6 @@ public class ChatMessageSendRequest {
         this.message = message;
     }
 
-    public boolean isHasPrescription() {
-        return hasPrescription;
-    }
-
-    public void setHasPrescription(boolean hasPrescription) {
-        this.hasPrescription = hasPrescription;
-    }
+    public Long getPrescriptionId() { return prescriptionId; }
+    public void setPrescriptionId(Long prescriptionId) { this.prescriptionId = prescriptionId; }
 }

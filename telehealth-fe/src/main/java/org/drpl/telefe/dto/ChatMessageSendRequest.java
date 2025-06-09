@@ -3,14 +3,12 @@ package org.drpl.telefe.dto;
 public class ChatMessageSendRequest {
     private Long senderId;
     private String message;
-    private boolean hasPrescription;
+    private Long prescriptionId;
 
-    public ChatMessageSendRequest() {}
-
-    public ChatMessageSendRequest(Long senderId, String message, boolean hasPrescription) {
+    public ChatMessageSendRequest(Long senderId, String message, Long prescriptionId) {
         this.senderId = senderId;
         this.message = message;
-        this.hasPrescription = hasPrescription;
+        this.prescriptionId = prescriptionId;
     }
 
     public Long getSenderId() {
@@ -29,11 +27,11 @@ public class ChatMessageSendRequest {
         this.message = message;
     }
 
-    public boolean isHasPrescription() {
-        return hasPrescription;
+    public Long isHasPrescription() {
+        return prescriptionId;
     }
 
-    public void setHasPrescription(boolean hasPrescription) {
-        this.hasPrescription = hasPrescription;
+    public void setHasPrescription(Long prescriptionId) {
+        this.prescriptionId = prescriptionId;
     }
 }

@@ -31,9 +31,6 @@ public class ChatMessage {
     @Column(columnDefinition = "TEXT")
     private String message;
 
-    @Column(name = "has_prescription")
-    private boolean hasPrescription;
-
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "prescription_id", referencedColumnName = "id")
     private Prescription prescription;
@@ -45,12 +42,11 @@ public class ChatMessage {
         this.timestamp = LocalDateTime.now();
     }
 
-    public ChatMessage(ChatSession chatSession, User sender, String message, boolean hasPrescription, Prescription prescription) {
+    public ChatMessage(ChatSession chatSession, User sender, String message, Prescription prescription) {
         this.chatSession = chatSession;
         this.sender = sender;
         this.message = message;
-        this.hasPrescription = hasPrescription;
-        this.prescription = hasPrescription ? prescription : null;
+        this.prescription = prescription; // Directly assign, null if no prescription
         this.timestamp = LocalDateTime.now();
     }
 
@@ -86,25 +82,12 @@ public class ChatMessage {
         this.message = message;
     }
 
-    public boolean getHasPrescription() {
-        return hasPrescription;
-    }
-
-    public void setHasPrescription(boolean hasPrescription) {
-        this.hasPrescription = hasPrescription;
-        if (!hasPrescription) {
-            this.prescription = null;
-        }
-    }
-
     public Prescription getPrescription() {
         return prescription;
     }
 
     public void setPrescription(Prescription prescription) {
-        if (this.hasPrescription) {
-            this.prescription = prescription;
-        }
+        this.prescription = prescription;
     }
 
     public LocalDateTime getTimestamp() {
@@ -122,7 +105,6 @@ public class ChatMessage {
                 ", chatSessionId=" + (chatSession != null ? chatSession.getId() : "null") +
                 ", sender=" + (sender != null ? sender.getId() : "null") +
                 ", message='" + message + '\'' +
-                ", hasPrescription=" + hasPrescription +
                 ", prescription=" + (prescription != null ? prescription.getId() : "null") +
                 ", timestamp=" + timestamp +
                 '}';

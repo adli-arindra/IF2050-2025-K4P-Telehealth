@@ -87,22 +87,21 @@ public class ChatController {
                 chatSession,
                 sender,
                 request.getMessage(),
-                request.isHasPrescription(),
                 null
         );
-        newMessage.setTimestamp(LocalDateTime.now());
 
         chatSession.addMessage(newMessage);
         chatSessionRepository.save(chatSession);
 
-        ChatMessageResponse response = new ChatMessageResponse(
+        ChatMessageResponse responseForInternalUse = new ChatMessageResponse(
                 newMessage.getId(),
-                newMessage.getSender() != null ? newMessage.getSender().getId() : null,
-                newMessage.getMessage(),
-                newMessage.getHasPrescription(),
-                newMessage.getPrescription() != null ? newMessage.getPrescription().getId() : null,
-                newMessage.getTimestamp()
+                newMessage.getSender() != null ? newMessage.getSender().getId() : null, // senderId
+                newMessage.getMessage(),                                            // message
+                newMessage.getPrescription() != null ? newMessage.getPrescription().getId() : null, // prescriptionId (handle null)
+                newMessage.getTimestamp()                                           // timestamp
         );
+
+        System.out.println("Message created (internal DTO): " + responseForInternalUse); // For internal logging
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Message sent");
     }
@@ -117,7 +116,6 @@ public class ChatController {
                         msg.getId(),
                         msg.getSender() != null ? msg.getSender().getId() : null,
                         msg.getMessage(),
-                        msg.getHasPrescription(),
                         msg.getPrescription() != null ? msg.getPrescription().getId() : null,
                         msg.getTimestamp()
                 ))
