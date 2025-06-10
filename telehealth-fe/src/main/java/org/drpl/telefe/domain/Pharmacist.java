@@ -1,4 +1,4 @@
-package org.drpl.telefe.model;
+package org.drpl.telefe.domain;
 
 import java.util.ArrayList;
 import java.util.Date;

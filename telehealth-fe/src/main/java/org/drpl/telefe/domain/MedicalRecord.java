@@ -1,4 +1,4 @@
-package org.drpl.telefe.model;
+package org.drpl.telefe.domain;
 
 import java.time.LocalDateTime;
 

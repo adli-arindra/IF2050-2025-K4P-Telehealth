@@ -1,6 +1,6 @@
 package org.drpl.telefe.dto;
 
-import org.drpl.telefe.model.DoctorSpecializationType;
+import org.drpl.telefe.domain.DoctorSpecializationType;
 
 import java.util.Date;
 

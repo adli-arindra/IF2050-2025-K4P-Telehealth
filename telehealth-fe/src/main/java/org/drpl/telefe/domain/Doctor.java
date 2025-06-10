@@ -1,6 +1,5 @@
-package org.drpl.telefe.model;
+package org.drpl.telefe.domain;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 public class Doctor extends User {

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.drpl.telefe.Global;
 import org.drpl.telefe.dto.PrescriptionRequest;
 import org.drpl.telefe.dto.PrescriptionResponse;
-import org.drpl.telefe.model.Medicine;
+import org.drpl.telefe.domain.Medicine;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime; // Make sure this is imported if used in DTO
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

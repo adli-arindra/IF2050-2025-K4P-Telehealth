@@ -1,4 +1,4 @@
-package org.drpl.telefe.model;
+package org.drpl.telefe.domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

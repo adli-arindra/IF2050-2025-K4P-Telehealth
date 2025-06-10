@@ -4,13 +4,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.drpl.telefe.dto.*;
-import org.drpl.telefe.model.User;
+import org.drpl.telefe.domain.User;
 import org.drpl.telefe.Global;
 import org.drpl.telefe.utils.HttpUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.util.Date;
 import java.util.List;
 
 public class AuthFetcher {
