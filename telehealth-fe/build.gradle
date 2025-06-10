@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
 group = 'org.drpl.telefe'
@@ -26,4 +28,13 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+javafx {
+    version = "20"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+application {
+    mainClass = 'org.drpl.telefe.Main'
 }
