@@ -13,6 +13,8 @@ public class PrescriptionResponse {
     private List<Medicine> medicines;
     private LocalDateTime date;
 
+    public PrescriptionResponse() {}
+
     public PrescriptionResponse(Long id, Long patientId, Long doctorId, List<Medicine> medicines, LocalDateTime date) {
         this.id = id;
         this.patientId = patientId;

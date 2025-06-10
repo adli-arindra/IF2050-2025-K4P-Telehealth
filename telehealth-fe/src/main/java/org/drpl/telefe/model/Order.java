@@ -22,59 +22,24 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getPatientId() { return patientId; }
+    public void setPatientId(Long patientId) { this.patientId = patientId; }
 
-    public Long getPatientId() {
-        return patientId;
-    }
+    public Long getPharmacistId() { return pharmacistId; }
+    public void setPharmacistId(Long pharmacistId) { this.pharmacistId = pharmacistId; }
 
-    public void setPatientId(Long patientId) {
-        this.patientId = patientId;
-    }
+    public Prescription getPrescription() { return prescription; }
+    public void setPrescription(Prescription prescription) { this.prescription = prescription; }
 
-    public Long getPharmacistId() {
-        return pharmacistId;
-    }
+    public LocalDateTime getOrderDate() { return orderDate; }
+    public void setOrderDate(LocalDateTime orderDate) { this.orderDate = orderDate; }
 
-    public void setPharmacistId(Long pharmacistId) {
-        this.pharmacistId = pharmacistId;
-    }
+    public boolean isPaid() { return isPaid; }
+    public void setPaid(boolean paid) { isPaid = paid; }
 
-    public Prescription getPrescription() {
-        return prescription;
-    }
-
-    public void setPrescription(Prescription prescription) {
-        this.prescription = prescription;
-    }
-
-    public LocalDateTime getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(LocalDateTime orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public boolean isPaid() {
-        return isPaid;
-    }
-
-    public void setPaid(boolean paid) {
-        isPaid = paid;
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
+    public BigDecimal getTotalPrice() { return totalPrice; }
+    public void setTotalPrice(BigDecimal totalPrice) { this.totalPrice = totalPrice; }
 }

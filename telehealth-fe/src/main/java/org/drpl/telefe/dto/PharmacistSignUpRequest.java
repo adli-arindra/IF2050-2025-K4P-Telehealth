@@ -1,26 +1,23 @@
-package org.drpl.telefe.model;
+package org.drpl.telefe.dto;
 
 import java.util.Date;
 
-public class User {
-    private Long id;
+public class PharmacistSignUpRequest {
     private String name;
     private String email;
+    private String password;
     private String alamat;
     private Date tanggalLahir;
 
-    public User() {}
-
-    public User(Long id, String name, String email, String alamat, Date tanggalLahir) {
-        this.id = id;
+    public PharmacistSignUpRequest(String name, String email, String password, String alamat, Date tanggalLahir) {
         this.name = name;
         this.email = email;
+        this.password = password;
         this.alamat = alamat;
         this.tanggalLahir = tanggalLahir;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public PharmacistSignUpRequest() {}
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -28,20 +25,12 @@ public class User {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+
     public String getAlamat() { return alamat; }
     public void setAlamat(String alamat) { this.alamat = alamat; }
 
     public Date getTanggalLahir() { return tanggalLahir; }
     public void setTanggalLahir(Date tanggalLahir) { this.tanggalLahir = tanggalLahir; }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", alamat='" + alamat + '\'' +
-                ", tanggalLahir=" + tanggalLahir +
-                '}';
-    }
 }

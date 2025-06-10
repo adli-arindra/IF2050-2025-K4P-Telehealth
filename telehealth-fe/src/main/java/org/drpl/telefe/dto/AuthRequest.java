@@ -12,12 +12,11 @@ public class AuthRequest {
         this.password = password;
     }
 
-    // Getters and setters
     public String getEmail() {
         return this.email;
     }
 
-    public String GetPassword() {
+    public String getPassword() {
         return this.password;
     }
 

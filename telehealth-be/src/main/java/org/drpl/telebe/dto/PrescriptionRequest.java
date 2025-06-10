@@ -8,6 +8,8 @@ public class PrescriptionRequest {
     private Long doctorId;
     private List<Medicine> medicines;
 
+    public PrescriptionRequest() {}
+
     public Long getPatientId() {
         return patientId;
     }

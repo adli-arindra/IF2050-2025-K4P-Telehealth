@@ -6,15 +6,13 @@ public class ChatMessageResponse {
     private Long id;
     private Long senderId;
     private String message;
-    private boolean hasPrescription;
     private Long prescriptionId;
     private LocalDateTime timestamp;
 
-    public ChatMessageResponse(Long id, Long senderId, String message, boolean hasPrescription, Long prescriptionId, LocalDateTime timestamp) {
+    public ChatMessageResponse(Long id, Long senderId, String message, Long prescriptionId, LocalDateTime timestamp) {
         this.id = id;
         this.senderId = senderId;
         this.message = message;
-        this.hasPrescription = hasPrescription;
         this.prescriptionId = prescriptionId;
         this.timestamp = timestamp;
     }
@@ -29,10 +27,6 @@ public class ChatMessageResponse {
 
     public String getMessage() {
         return message;
-    }
-
-    public boolean getHasPrescription() {
-        return hasPrescription;
     }
 
     public Long getPrescriptionId() {

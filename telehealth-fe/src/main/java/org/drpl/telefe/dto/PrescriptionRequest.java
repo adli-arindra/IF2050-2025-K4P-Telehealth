@@ -1,4 +1,6 @@
-package org.drpl.telefe.model;
+package org.drpl.telefe.dto;
+
+import org.drpl.telefe.model.Medicine;
 
 import java.util.List;
 
@@ -6,6 +8,8 @@ public class PrescriptionRequest {
     private Long patientId;
     private Long doctorId;
     private List<Medicine> medicines;
+
+    public PrescriptionRequest() { }
 
     public PrescriptionRequest(Long patientId, Long doctorId, List<Medicine> medicines) {
         this.patientId = patientId;
