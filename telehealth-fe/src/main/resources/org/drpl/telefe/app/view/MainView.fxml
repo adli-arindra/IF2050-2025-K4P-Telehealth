@@ -1,25 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.geometry.Insets?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="rootLayout" prefHeight="600.0" prefWidth="800.0"
-            xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1"
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.drpl.telefe.app.controller.MainController">
-    <left>
-        <VBox spacing="10" alignment="TOP_LEFT" style="-fx-background-color: #f0f0f0; -fx-padding: 15;">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
-            <Label text="Navigation" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
-            <Button text="Home" onAction="#handleGoHome" maxWidth="Infinity"/>
-            <Button text="Products" onAction="#handleGoProducts" maxWidth="Infinity"/>
-            <Button text="Settings" onAction="#handleGoSettings" maxWidth="Infinity"/>
-        </VBox>
-    </left>
     <center>
     </center>
 </BorderPane>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.geometry.Insets?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.Button?>
+<VBox alignment="CENTER" spacing="20" styleClass="gradient-background"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.drpl.telefe.app.controller.auth.SplashScreenController">
+    <ImageView fitWidth="225" preserveRatio="true">
+        <Image url="@/images/logo.png" />
+    </ImageView>
+    <Label styleClass="heading-text" text="TeleHealth+" style="-fx-font-size: 36; -fx-padding: 10 0 40 0"/>
+    <Button styleClass="yellow-button" text="Sign Up" onAction="#handleSignUp" prefWidth="250"/>
+    <Button styleClass="yellow-button" text="Sign In" onAction="#handleSignIn" prefWidth="250"/>
+</VBox>

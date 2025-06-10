@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 public class Global {
     public static final ObjectMapper objectMapper = new ObjectMapper();
     public static final String BASE_URL = "http://localhost:8080";
+    public static final int WIDTH = 360;
+    public static final int HEIGHT = 640;
 
     static {
         JavaTimeModule javaTimeModule = new JavaTimeModule();
