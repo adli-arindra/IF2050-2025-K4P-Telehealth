@@ -1,4 +1,4 @@
-package org.drpl.telefe.view;
+package org.drpl.telefe.app;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
