@@ -1,14 +1,7 @@
 package org.drpl.telebe.controller;
 
-import org.drpl.telebe.dto.AuthRequest;
-import org.drpl.telebe.dto.PatientSignUpRequest;
-import org.drpl.telebe.dto.DoctorSignUpRequest;
-import org.drpl.telebe.dto.PharmacistSignUpRequest;
-import org.drpl.telebe.dto.UserProfileResponse;
-import org.drpl.telebe.model.User;
-import org.drpl.telebe.model.Patient;
-import org.drpl.telebe.model.Doctor;
-import org.drpl.telebe.model.Pharmacist;
+import org.drpl.telebe.dto.*;
+import org.drpl.telebe.model.*;
 import org.drpl.telebe.repository.UserRepository;
 import org.drpl.telebe.repository.PatientRepository;
 import org.drpl.telebe.repository.DoctorRepository;
@@ -149,7 +142,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody AuthRequest request) {
+    public ResponseEntity<LoginResponse> login(@RequestBody AuthRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials."));
 
@@ -157,14 +150,23 @@ public class AuthController {
         try {
             decryptedPassword = BasicCipher.decrypt(user.getHashedPassword());
         } catch (GeneralSecurityException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to decrypt password for verification.", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to decrypt password.", e);
         }
 
         if (!request.getPassword().equals(decryptedPassword)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials.");
         }
 
-        return ResponseEntity.ok(user);
+        UserType userType = user.getUserType();
+
+        LoginResponse response = new LoginResponse(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                userType
+        );
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/users")

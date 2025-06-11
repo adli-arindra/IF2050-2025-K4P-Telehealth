@@ -5,7 +5,6 @@ import java.util.Date;
 
 public class OrderRequest {
     private Long patientId;
-    private Long pharmacistId;
     private Long prescriptionId;
     private boolean isPaid;
 
@@ -15,14 +14,6 @@ public class OrderRequest {
 
     public void setPatientId(Long patientId) {
         this.patientId = patientId;
-    }
-
-    public Long getPharmacistId() {
-        return pharmacistId;
-    }
-
-    public void setPharmacistId(Long pharmacistId) {
-        this.pharmacistId = pharmacistId;
     }
 
     public Long getPrescriptionId() {
