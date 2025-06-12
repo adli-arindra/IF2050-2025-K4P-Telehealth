@@ -1,7 +1,7 @@
 package org.drpl.telefe.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.drpl.telefe.model.Medicine;
+import org.drpl.telefe.domain.Medicine;
 
 import java.time.LocalDateTime;
 import java.util.List;

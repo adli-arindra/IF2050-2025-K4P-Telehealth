@@ -11,6 +11,7 @@ import org.drpl.telebe.repository.PrescriptionRepository;
 import org.drpl.telebe.dto.OrderResponse;
 import org.drpl.telebe.dto.OrderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @RestController
@@ -46,13 +48,21 @@ public class OrderController {
         this.orderRepository = orderRepository;
     }
 
+    private Pharmacist getRandomPharmacist() {
+        long count = pharmacistRepository.count();
+        if (count == 0) throw new RuntimeException("No pharmacists available");
+
+        int index = new Random().nextInt((int) count);
+        return pharmacistRepository.findAll(PageRequest.of(index, 1)).getContent().get(0);
+    }
+
     @PostMapping
     public ResponseEntity<String> createOrder(@RequestBody OrderRequest request) {
         Patient patient = patientRepository.findById(request.getPatientId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient with ID " + request.getPatientId() + " not found."));
 
-        Pharmacist pharmacist = pharmacistRepository.findById(request.getPharmacistId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pharmacist with ID " + request.getPharmacistId() + " not found."));
+        Pharmacist pharmacist = pharmacistRepository.findById(getRandomPharmacist().getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pharmacist with ID " + getRandomPharmacist().getId() + " not found."));
 
         Prescription prescription = prescriptionRepository.findById(request.getPrescriptionId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Prescription with ID " + request.getPrescriptionId() + " not found."));
@@ -95,15 +105,10 @@ public class OrderController {
 
             Patient patient = patientRepository.findById(request.getPatientId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient with ID " + request.getPatientId() + " not found."));
-
-            Pharmacist pharmacist = pharmacistRepository.findById(request.getPharmacistId())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pharmacist with ID " + request.getPharmacistId() + " not found."));
-
             Prescription prescription = prescriptionRepository.findById(request.getPrescriptionId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Prescription with ID " + request.getPrescriptionId() + " not found."));
 
             existingOrder.setPatient(patient);
-            existingOrder.setPharmacist(pharmacist);
             existingOrder.setPrescription(prescription);
             existingOrder.setOrderDate(LocalDateTime.now());
             existingOrder.setPaid(request.getIsPaid());

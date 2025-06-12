@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.drpl.telefe.app.controller.patient.PrescriptionController"
+      spacing="0" alignment="TOP_CENTER"
+      style="-fx-background-color: #E2F2FE;"> <!-- Overall light blue background for the entire page -->
+
+    <!-- Top Bar: Back Button and Title (New Container) -->
+    <StackPane alignment="CENTER_LEFT" prefHeight="80" style="-fx-background-color: transparent; -fx-padding: 0 20;">
+        <HBox alignment="CENTER_LEFT">
+            <Button onAction="#toBack" style="-fx-background-color: #FFB703; -fx-background-radius: 25; -fx-padding: 10;">
+                <graphic>
+                    <ImageView fitWidth="24" fitHeight="24">
+                        <Image url="@/images/arrow.png" preserveRatio="true"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
+        <Label text="Prescriptions &amp; Orders" StackPane.alignment="CENTER"
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #023047;"/>
+    </StackPane>
+
+    <!-- Main Content Area: TabPane -->
+    <TabPane fx:id="mainTabPane"
+             style="-fx-background-color: #E2F2FE; -fx-padding: 0;"
+             tabClosingPolicy="UNAVAILABLE"
+             VBox.vgrow="ALWAYS"> <!-- Make TabPane grow to fill available space -->
+
+        <!-- Prescriptions Tab -->
+        <Tab text="Prescriptions" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #023047;">
+            <content>
+                <BorderPane style="-fx-background-color: #E2F2FE;"> <!-- Background for the content area of the tab -->
+                    <!-- Removed HBox for back button from here -->
+                    <center>
+                        <VBox spacing="15" alignment="TOP_LEFT"
+                              style="-fx-background-color: #FFFFFF; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 5);"
+                              maxWidth="450"> <!-- Card-like appearance for the main content -->
+                            <Label text="Your Prescriptions" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #023047; -fx-padding: 0 0 10 0;"/>
+                            <Accordion fx:id="prescriptionAccordion" VBox.vgrow="ALWAYS"
+                                       style="-fx-background-color: transparent; -fx-border-color: transparent;"/>
+                        </VBox>
+                    </center>
+                    <bottom>
+                        <VBox spacing="10" alignment="TOP_LEFT"
+                              style="-fx-background-color: #FFFFFF; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 5); -fx-margin: 20 0 0 0;"
+                              maxWidth="450"> <!-- Card-like appearance for medicine info -->
+                            <padding>
+                                <Insets top="20" right="20" bottom="20" left="20"/>
+                            </padding>
+                            <Label text="Medicine Information" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #023047; -fx-padding: 0 0 10 0;"/>
+                            <Label fx:id="medicineNameLabel" text="Name: " style="-fx-font-size: 14px; -fx-text-fill: #333333;"/>
+                            <Label fx:id="medicineDescLabel" text="Description: " style="-fx-font-size: 14px; -fx-text-fill: #333333;"/>
+                            <Label fx:id="medicineDosageLabel" text="Dosage: " style="-fx-font-size: 14px; -fx-text-fill: #333333;"/>
+                            <Label fx:id="medicinePriceLabel" text="Price: " style="-fx-font-size: 14px; -fx-text-fill: #333333;"/>
+                            <Button text="Order This Prescription" onAction="#onOrder"
+                                    style="-fx-background-color: #28A745; -fx-text-fill: white; -fx-background-radius: 10; -fx-padding: 10 25; -fx-font-weight: bold; -fx-font-size: 16px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);"/>
+                        </VBox>
+                    </bottom>
+                </BorderPane>
+            </content>
+        </Tab>
+
+        <!-- Orders Tab -->
+        <Tab text="Orders" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #023047;">
+            <content>
+                <VBox spacing="15" alignment="TOP_LEFT"
+                      style="-fx-background-color: #FFFFFF; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 5);"
+                      maxWidth="450"> <!-- Card-like appearance for the orders list -->
+                    <Label text="Your Orders" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #023047; -fx-padding: 0 0 10 0;"/>
+                    <ListView fx:id="ordersListView" VBox.vgrow="ALWAYS"
+                              style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-focus-color: transparent; -fx-faint-focus-color: transparent;"/>
+                </VBox>
+            </content>
+        </Tab>
+    </TabPane>
+</VBox>

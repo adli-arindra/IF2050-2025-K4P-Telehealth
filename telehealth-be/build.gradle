@@ -19,6 +19,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.0'
     implementation 'com.google.crypto.tink:tink:1.17.0'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+    implementation 'org.json:json:20240303'
 
     runtimeOnly 'com.h2database:h2'
 }

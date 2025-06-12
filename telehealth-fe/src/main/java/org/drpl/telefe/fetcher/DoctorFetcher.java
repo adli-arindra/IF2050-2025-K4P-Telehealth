@@ -3,7 +3,7 @@ package org.drpl.telefe.fetcher;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.drpl.telefe.Global;
-import org.drpl.telefe.model.Doctor;
+import org.drpl.telefe.domain.Doctor;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

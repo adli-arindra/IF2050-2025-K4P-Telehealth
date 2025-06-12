@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.drpl.telefe.app.controller.patient.ChatRoomController"
+            style="-fx-background-color: #b3e0f2;">
+
+    <!-- Top Bar -->
+    <top>
+        <HBox alignment="CENTER" spacing="10" style="-fx-background-color: #023047; -fx-padding: 10;">
+            <Button onAction="#handleBack" style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
+                        <Image url="@/images/arrow.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+            <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #ffb703; -fx-padding: 5 10; -fx-background-radius: 20;" HBox.hgrow="ALWAYS">
+                <ImageView fitHeight="30" fitWidth="30" preserveRatio="true">
+                    <Image url="@/images/homepage/profile.png"/>
+                </ImageView>
+                <VBox>
+                    <Text text="Anindya" style="-fx-fill: black; -fx-font-weight: bold;"/>
+                    <Text text="Patient" style="-fx-fill: black; -fx-font-size: 10px;"/>
+                </VBox>
+            </HBox>
+
+            <Button style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
+                        <Image url="@/images/settings.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
+    </top>
+
+    <!-- Chat Scroll -->
+    <center>
+        <ScrollPane fx:id="chatScrollPane" fitToWidth="true" style="-fx-background: transparent;">
+            <VBox fx:id="chatContainer" spacing="10" style="-fx-padding: 10;"/>
+        </ScrollPane>
+    </center>
+
+    <!-- Message Input -->
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10;">
+            <Button style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
+                        <Image url="@/images/camera.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+            <TextField fx:id="messageField" promptText="Type Your Message" style="-fx-background-radius: 20; -fx-background-color: #f0f4f8;" HBox.hgrow="ALWAYS"/>
+
+            <Button onAction="#handleSend" style="-fx-background-color: #ffb703; -fx-background-radius: 30;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
+                        <Image url="@/images/send.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
+    </bottom>
+</BorderPane>

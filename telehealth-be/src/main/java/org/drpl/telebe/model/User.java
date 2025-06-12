@@ -100,4 +100,12 @@ public abstract class User {
     public void setTanggalLahir(Date tanggalLahir) {
         this.tanggalLahir = tanggalLahir;
     }
+
+    public UserType getUserType() {
+        if (this instanceof Patient) return UserType.PATIENT;
+        if (this instanceof Doctor) return UserType.DOCTOR;
+        if (this instanceof Pharmacist) return UserType.PHARMACIST;
+        throw new IllegalStateException("Unknown user type");
+    }
+
 }

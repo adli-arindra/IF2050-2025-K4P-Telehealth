@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
 group = 'org.drpl.telefe'
@@ -22,8 +24,18 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.1'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.17.1'
+    implementation 'com.google.code.gson:gson:2.10.1'
 }
 
 test {
     useJUnitPlatform()
+}
+
+javafx {
+    version = "20"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+application {
+    mainClass = 'org.drpl.telefe.Main'
 }

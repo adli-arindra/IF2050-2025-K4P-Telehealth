@@ -53,6 +53,13 @@ public class ChatFetcher {
         return objectMapper.readValue(jsonResponse, new TypeReference<List<ChatSessionResponse>>() {});
     }
 
+    public List<ChatSessionResponse> getChatSessionsByUserId(Long userId) throws Exception {
+        String urlString = BASE_URL + "/sessions/" + userId;
+        String jsonResponse = sendGetRequest(urlString);
+        return objectMapper.readValue(jsonResponse, new TypeReference<List<ChatSessionResponse>>() {});
+    }
+
+
     private String sendPostRequest(String urlString, String jsonInputString) throws Exception {
         URL url = new URL(urlString);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -134,7 +141,7 @@ public class ChatFetcher {
             System.out.println("\n2. Creating a new chat session...");
             // Replace 101L and 102L with actual user IDs from your system
             ChatSessionCreateRequest createSessionRequest = new ChatSessionCreateRequest(
-                    "Test Chat Session",
+                    "Test",
                     Arrays.asList(2L, 1L) // Example participant IDs
             );
             ChatSessionResponse newSession = chatFetcher.createChatSession(createSessionRequest);

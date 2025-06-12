@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.drpl.telefe.Global;
 import org.drpl.telefe.dto.PrescriptionRequest;
 import org.drpl.telefe.dto.PrescriptionResponse;
-import org.drpl.telefe.model.Medicine;
+import org.drpl.telefe.domain.Medicine;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime; // Make sure this is imported if used in DTO
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,20 +48,30 @@ public class PrescriptionFetcher {
         return objectMapper.readValue(response, new TypeReference<List<PrescriptionResponse>>() {});
     }
 
-    public List<PrescriptionResponse> getPrescriptionsByUserId(Long userId) throws IOException { // Changed Exception to IOException
-        URL url = new URL(BASE_URL + "/user/" + userId); // Assumed /user/
+    public List<PrescriptionResponse> getPrescriptionsByUserId(Long userId) throws IOException {
+        URL url = new URL(BASE_URL + "/" + userId);
+        System.out.println(url);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/json");
-        conn.setConnectTimeout(5000); // Add timeouts
-        conn.setReadTimeout(5000);    // Add timeouts
+        conn.setConnectTimeout(5000);
+        conn.setReadTimeout(5000);
 
-        String response = readResponse(conn);
-        checkResponse(conn);
-        conn.disconnect(); // Ensure connection is disconnected after reading and checking
+        int status = conn.getResponseCode();
+
+        String response;
+        if (status == 200) {
+            response = readResponse(conn);
+        } else {
+            response = readError(conn);
+            throw new IOException("Failed to fetch prescriptions: HTTP " + status + " - " + response);
+        }
+
+        conn.disconnect();
 
         return objectMapper.readValue(response, new TypeReference<List<PrescriptionResponse>>() {});
     }
+
 
     public String createPrescription(PrescriptionRequest request) throws IOException { // Changed Exception to IOException
         URL url = new URL(BASE_URL);
