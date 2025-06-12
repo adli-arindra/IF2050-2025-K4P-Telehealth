@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.drpl.telefe.app.controller.patient.ScreeningController"
+            style="-fx-background-color: #E2F2FE;"> <!-- Overall light blue background -->
+
+    <top>
+        <HBox alignment="CENTER_LEFT" style="-fx-padding: 20 20 20 20;"> <!-- Consistent padding for top bar -->
+            <Button onAction="#onBack" style="-fx-background-color: #FFB703; -fx-background-radius: 25; -fx-padding: 10;">
+                <graphic>
+                    <ImageView fitHeight="24" fitWidth="24"> <!-- Increased size for better touch target -->
+                        <Image url="@/images/arrow.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="20" alignment="TOP_LEFT"
+              style="-fx-background-color: #FFFFFF; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 5);"
+              maxWidth="450"> <!-- Card-like appearance for the content -->
+            <Label text="Describe your symptoms or condition:"
+                   style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #023047;"/>
+            <TextArea fx:id="promptArea" prefRowCount="5"
+                      style="-fx-background-color: #F0F8FF; -fx-border-color: #CCCCCC; -fx-border-radius: 8; -fx-padding: 10; -fx-font-size: 14px; -fx-text-fill: #023047;"/>
+
+            <Button text="Get Recommendation" onAction="#onSubmitPrompt"
+                    style="-fx-background-color: #FFB703; -fx-text-fill: #FFFFFF; -fx-background-radius: 10; -fx-padding: 10 25; -fx-font-weight: bold; -fx-font-size: 16px; -fx-cursor: hand;"/>
+
+            <Label text="Recommended Specialization:"
+                   style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #023047; -fx-padding: 10 0 0 0;"/>
+            <Label fx:id="specializationLabel" style="-fx-font-weight: bold; -fx-text-fill: #333333; -fx-font-size: 14px;"/>
+
+            <Label text="Available Doctors:"
+                   style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #023047; -fx-padding: 10 0 0 0;"/>
+            <ListView fx:id="doctorList" onMouseClicked="#onDoctorSelected"
+                      style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-focus-color: transparent; -fx-faint-focus-color: transparent;"/>
+            <Button fx:id="startConsultationBtn" text="Start Consultation" visible="false" onAction="#onStartChat"
+                    style="-fx-background-color: #FFB703; -fx-text-fill: #FFFFFF; -fx-background-radius: 10; -fx-padding: 10 25; -fx-font-weight: bold; -fx-font-size: 16px; -fx-cursor: hand;"/>
+
+        </VBox>
+    </center>
+</BorderPane>
