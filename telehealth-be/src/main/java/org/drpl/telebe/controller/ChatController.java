@@ -144,4 +144,25 @@ public class ChatController {
 
         return ResponseEntity.ok(responses);
     }
+
+    @GetMapping("/sessions/{userId}")
+    public ResponseEntity<List<ChatSessionResponse>> getUserChatSessionsByUserId(@PathVariable Long userId) {
+        List<ChatSession> sessions = chatSessionRepository.findByParticipantId(userId);
+
+        List<ChatSessionResponse> responses = sessions.stream()
+                .map(session -> {
+                    List<Long> participantIds = session.getUsers().stream()
+                            .map(User::getId)
+                            .collect(Collectors.toList());
+                    return new ChatSessionResponse(
+                            session.getId(),
+                            session.getSessionName(),
+                            session.getCreatedDate(),
+                            participantIds
+                    );
+                })
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(responses);
+    }
 }

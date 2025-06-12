@@ -102,8 +102,9 @@ public class LLMController {
         MedicalRecord record = medicalRecordRepository.findByPatientId(patientId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials."));
 
-        return "I have a condition of " + record.getDiagnosis() +
-                ". And I am currently getting the treatment of " + record.getTreatment() +
-                ". Please tell me what doctor specialization I need to consult.";
+//        return "I have a condition of " + record.getDiagnosis() +
+//                ". And I am currently getting the treatment of " + record.getTreatment() +
+//                ". Please tell me what doctor specialization I need to consult.";
+        return "Please tell me what doctor specialization I need to consult.";
     }
 }
