@@ -12,9 +12,70 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 6, 0.5, 2, 2);
 }
 
+.yellow-background {
+    -fx-background-color: #FFB703;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 8, 0.5, 2, 2);
+}
+
+
 .heading-text {
     -fx-font-family: "Poppins";
     -fx-font-weight: bold;
-    -fx-text-fill: #023047;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 6, 0.5, 2, 2);
+}
+
+.text-field {
+    -fx-background-color: #ECF3F6;
+    -fx-background-radius: 30;
+    -fx-padding: 5 15;
+
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 6, 0.5, 2, 2);
+
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.transparent-field {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-text-fill: #000000;
+    -fx-font-family: "Poppins";
+    -fx-font-size: 14px;
+
+    -fx-effect: none;
+
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.custom-checkbox .box {
+    -fx-background-color: transparent;
+    -fx-border-color: #1D1B20;
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-min-width: 20px;
+    -fx-min-height: 20px;
+    -fx-pref-width: 20px;
+    -fx-pref-height: 20px;
+    -fx-max-width: 20px;
+    -fx-max-height: 20px;
+}
+
+.custom-checkbox:selected .box {
+    -fx-background-color: #1D1B20;
+    -fx-border-color: #1D1B20;
+}
+
+.custom-checkbox:selected .mark {
+    -fx-background-color: white;
+}
+
+.custom-checkbox .mark {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
 }
