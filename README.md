@@ -17,7 +17,10 @@ Telehealth+ adalah aplikasi sistem layanan kesehatan jarak jauh yang menghubungk
 ### Frontend
 1. Pastikan Java sudah terinstall.
 2. Buka terminal di direktori `telehealth-fe`.
-3. Jalankan aplikasi JavaFX dengan menjalankan kelas `Main` atau `MainApplication`.
+3. Jalankan aplikasi JavaFX dengan menjalankan:
+   ```
+   ./gradlew run
+   ```
 4. Aplikasi desktop akan terbuka dan terhubung ke backend.
 
 ## Daftar Modul yang Diimplementasi
