@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.Label?>
+<AnchorPane style="-fx-background-color: #023047" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.drpl.telefe.app.controller.auth.SignInController">
+    <VBox alignment="CENTER" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" style="-fx-padding: 20 0 0 0" spacing="10">
+        <ImageView fitHeight="100" fitWidth="100" preserveRatio="true">
+            <Image url="@/images/logo.png"/>
+        </ImageView>
+        <Label text="Welcome Back!" styleClass="heading-text" style="-fx-text-fill: white; -fx-font-size: 26"/>
+    </VBox>
+
+    <Button AnchorPane.leftAnchor="10" AnchorPane.topAnchor="10" styleClass="yellow-background" onAction="#toSplashScreen">
+        <graphic>
+            <ImageView fitWidth="25" fitHeight="25" preserveRatio="true">
+                <Image url="@/images/arrow.png"/>
+            </ImageView>
+        </graphic>
+    </Button>
+
+    <VBox alignment="CENTER" style="-fx-background-color: #FFFFFF; -fx-padding: 10 20 30 20; -fx-background-radius: 45 45 0 0;"
+          AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+          spacing="20">
+        <HBox alignment="CENTER_LEFT" styleClass="text-field">
+            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@/images/mail.png" />
+            </ImageView>
+            <TextField fx:id="emailField" promptText="E-mail" styleClass="transparent-field" HBox.hgrow="ALWAYS">
+                <HBox.margin>
+                    <Insets left="10.0" />
+                </HBox.margin>
+            </TextField>
+            <VBox.margin>
+                <Insets top="20.0" />
+            </VBox.margin>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" styleClass="text-field">
+            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@/images/lock.png" />
+            </ImageView>
+            <PasswordField fx:id="passwordField" promptText="Password" styleClass="transparent-field" HBox.hgrow="ALWAYS">
+                <HBox.margin>
+                    <Insets left="10.0" />
+                </HBox.margin>
+            </PasswordField>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" prefWidth="200.0">
+            <CheckBox mnemonicParsing="false" text="Remember Me" styleClass="custom-checkbox" />
+            <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                <Hyperlink text="Forgot Password?" textFill="#f5a623" />
+            </HBox>
+            <VBox.margin>
+                <Insets />
+            </VBox.margin>
+        </HBox>
+        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="300.0"
+                styleClass="yellow-button" text="Sign In" textFill="WHITE"
+                onAction="#signIn"/>
+        <HBox alignment="CENTER" spacing="5.0">
+            <VBox.margin>
+                <Insets top="150"/>
+            </VBox.margin>
+            <Label text="Don't have an account?" textFill="black" />
+            <Hyperlink text="Sign Up" textFill="#f5a623" onAction="#toSignUp"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
