@@ -41,8 +41,6 @@ Telehealth+ adalah aplikasi sistem layanan kesehatan jarak jauh yang menghubungk
 - **Patient Controllers**: Modul untuk halaman pasien seperti HomePage, DoctorSelection, MedicalRecord, Prescription, dan ProfilePage.
 - **Pharmacist Controllers**: Modul untuk halaman apoteker seperti OrdersPage.
 
-*Catatan: Tidak ada screenshot tampilan layar yang disertakan.*
-
 ## Daftar Tabel Basis Data yang Diimplementasi
 
 | Nama Tabel     | Atribut                                                                                  |
@@ -57,8 +55,6 @@ Telehealth+ adalah aplikasi sistem layanan kesehatan jarak jauh yang menghubungk
 | `chat_session` | id, sessionName, createdDate                                                             |
 | `chat_message` | id, chatSession_id, sender_id, message, timestamp, prescription_id (optional)            |
 | `medical_record`| id, patient_id, doctor_id, diagnosis, treatment, recordDate                             |
-
-*Catatan: Atribut tabel diambil dari model JPA yang diimplementasikan di backend.*
 
 ## Struktur Direktori Proyek
 
