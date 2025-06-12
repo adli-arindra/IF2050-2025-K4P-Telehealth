@@ -13,11 +13,10 @@
     <!-- Top Bar: Back Button, Consultation Title, Right Icon -->
     <StackPane alignment="CENTER" prefHeight="80" style="-fx-background-color: transparent;">
         <!-- Back Button - styled as a yellow circle with white arrow -->
-        <HBox alignment="CENTER_LEFT" translateX="-150">
+        <HBox alignment="CENTER_LEFT">
             <Button onAction="#toBack" style="-fx-background-color: #FFB703; -fx-background-radius: 25; -fx-padding: 10;">
                 <graphic>
                     <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
-                        <!-- Placeholder for a white left arrow icon - Assuming arrow.png is white or transparent -->
                         <Image url="@/images/arrow.png"/>
                     </ImageView>
                 </graphic>
@@ -33,20 +32,14 @@
         </HBox>
     </StackPane>
 
-    <!-- Search Bar -->
-    <HBox alignment="CENTER_LEFT" spacing="10" prefWidth="380"
-          style="-fx-background-color: #FFFFFF; -fx-background-radius: 15; -fx-padding: 10 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 5);">
-        <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
-            <!-- Placeholder for search icon -->
-            <Image url="https://placehold.co/20x20/023047/FFFFFF?text=🔍"/>
-        </ImageView>
-        <TextField promptText="Search Doctor" HBox.hgrow="ALWAYS"
-                   style="-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 14px; -fx-text-fill: #023047;"/>
-    </HBox>
 
     <!-- Original ListView (dynamic content) -->
     <ListView fx:id="doctorListView" prefHeight="300" prefWidth="400"
               style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-focus-color: transparent; -fx-faint-focus-color: transparent;"/>
+
+    <Button text="Start New Chat"
+            onAction="#handleStartChat"
+            style="-fx-background-color: #FFB703; -fx-text-fill: #FFFFFF; -fx-background-radius: 10; -fx-padding: 10 25; -fx-font-weight: bold; -fx-font-size: 16px; -fx-cursor: hand;" />
 
     <!-- Resume Chat Button (kept as is, not in image) -->
     <Button fx:id="resumeChatButton" text="Resume Chat"

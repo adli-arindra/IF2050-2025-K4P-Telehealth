@@ -104,7 +104,6 @@ public class ChatRoomController implements Page {
 
             try {
                 chatFetcher.sendChatMessage(model.getChatSession().getId(), request);
-                addMessageBubble(messageText, true);
             } catch (Exception e) {
                 ToastFactory.showToast(
                         mainApplication.getPrimaryStage(),
