@@ -48,20 +48,30 @@ public class PrescriptionFetcher {
         return objectMapper.readValue(response, new TypeReference<List<PrescriptionResponse>>() {});
     }
 
-    public List<PrescriptionResponse> getPrescriptionsByUserId(Long userId) throws IOException { // Changed Exception to IOException
-        URL url = new URL(BASE_URL + "/user/" + userId); // Assumed /user/
+    public List<PrescriptionResponse> getPrescriptionsByUserId(Long userId) throws IOException {
+        URL url = new URL(BASE_URL + "/" + userId);
+        System.out.println(url);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/json");
-        conn.setConnectTimeout(5000); // Add timeouts
-        conn.setReadTimeout(5000);    // Add timeouts
+        conn.setConnectTimeout(5000);
+        conn.setReadTimeout(5000);
 
-        String response = readResponse(conn);
-        checkResponse(conn);
-        conn.disconnect(); // Ensure connection is disconnected after reading and checking
+        int status = conn.getResponseCode();
+
+        String response;
+        if (status == 200) {
+            response = readResponse(conn);
+        } else {
+            response = readError(conn);
+            throw new IOException("Failed to fetch prescriptions: HTTP " + status + " - " + response);
+        }
+
+        conn.disconnect();
 
         return objectMapper.readValue(response, new TypeReference<List<PrescriptionResponse>>() {});
     }
+
 
     public String createPrescription(PrescriptionRequest request) throws IOException { // Changed Exception to IOException
         URL url = new URL(BASE_URL);

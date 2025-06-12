@@ -120,58 +120,61 @@ public class OrderFetcher {
         OrderFetcher orderFetcher = new OrderFetcher();
 
         try {
-            // 1. Create an Order
-            // if it fails (code 500), its because there cant be duplicates
-            System.out.println("--- Creating an Order ---");
-            OrderRequest newOrder = new OrderRequest(1L, 2L, 1L, false); // Replace with actual existing IDs
-            String createMessage = orderFetcher.createOrder(newOrder);
-            System.out.println("Create Order Response: " + createMessage);
+            Long patientId = 1L;       // Replace with a valid patient ID
+            Long pharmacistId = 2L;  // Replace with a valid pharmacist ID
+
+            // 1. Create a new Order
+            System.out.println("=== 1. Creating Order ===");
+            OrderRequest newOrder = new OrderRequest(patientId, pharmacistId, false);
+            String createdResponse = orderFetcher.createOrder(newOrder);
+            System.out.println("Create Order Response: " + createdResponse);
             System.out.println();
 
-            // 2. Get All Orders
-            System.out.println("--- Getting All Orders ---");
+            // 2. Get all orders
+            System.out.println("=== 2. Fetching All Orders ===");
             List<OrderResponse> allOrders = orderFetcher.getAllOrders();
-            System.out.println("All Orders:");
-            allOrders.forEach(order -> System.out.println("  ID: " + order.getId() + ", Paid: " + order.isPaid() + ", Total: " + order.getTotalPrice()));
+            allOrders.forEach(order -> System.out.println("  ID: " + order.getId() + ", Paid: " + order.isPaid() + ", Price: " + order.getTotalPrice()));
             System.out.println();
 
-            // 3. Get Order by ID (assuming order with ID 1 exists after creation or from pre-existing data)
-            Long orderIdToFetch = 1L; // Use an ID that exists in your database
-            System.out.println("--- Getting Order by ID: " + orderIdToFetch + " ---");
-            Optional<OrderResponse> fetchedOrder = orderFetcher.getOrderById(orderIdToFetch);
+            // Pick the last order (assumes newest is last)
+            OrderResponse testOrder = allOrders.get(allOrders.size() - 1);
+            Long testOrderId = testOrder.getId();
+
+            // 3. Get order by ID
+            System.out.println("=== 3. Fetching Order by ID: " + testOrderId + " ===");
+            Optional<OrderResponse> fetchedOrder = orderFetcher.getOrderById(testOrderId);
             fetchedOrder.ifPresentOrElse(
-                    order -> System.out.println("Fetched Order: ID=" + order.getId() + ", Patient ID=" + order.getPatientId() + ", Paid=" + order.isPaid()),
-                    () -> System.out.println("Order with ID " + orderIdToFetch + " not found.")
+                    order -> System.out.println("Fetched: ID=" + order.getId() + ", PatientID=" + order.getPatientId() + ", Paid=" + order.isPaid()),
+                    () -> System.out.println("Order not found.")
             );
             System.out.println();
 
-            // 4. Update an Order (assuming order with ID 1 exists)
-            System.out.println("--- Updating Order with ID: " + orderIdToFetch + " ---");
-            OrderRequest updatedOrder = new OrderRequest(1L, 2L, 1L, true); // Set to paid
-            String updateMessage = orderFetcher.updateOrder(orderIdToFetch, updatedOrder);
-            System.out.println("Update Order Response: " + updateMessage);
+            // 4. Update the order to paid
+            System.out.println("=== 4. Updating Order ID " + testOrderId + " to PAID ===");
+            OrderRequest updatedOrder = new OrderRequest(patientId, pharmacistId, true);
+            String updateResponse = orderFetcher.updateOrder(testOrderId, updatedOrder);
+            System.out.println("Update Response: " + updateResponse);
             System.out.println();
 
-            // 5. Finish an Order (assuming order with ID 1 exists and is not yet finished)
-            System.out.println("--- Finishing Order with ID: " + orderIdToFetch + " ---");
-            String finishMessage = orderFetcher.finishOrder(orderIdToFetch);
-            System.out.println("Finish Order Response: " + finishMessage);
+            // 5. Finish the order
+            System.out.println("=== 5. Finishing Order ID " + testOrderId + " ===");
+            String finishResponse = orderFetcher.finishOrder(testOrderId);
+            System.out.println("Finish Response: " + finishResponse);
             System.out.println();
 
-            // 6. Get Orders by User ID (assuming user 101 exists)
-            Long userIdToFetch = 101L; // Replace with an actual user ID
-            System.out.println("--- Getting Orders by User ID: " + userIdToFetch + " ---");
-            List<OrderResponse> userOrders = orderFetcher.getOrdersByUserId(userIdToFetch);
-            System.out.println("Orders for User " + userIdToFetch + ":");
-            userOrders.forEach(order -> System.out.println("  ID: " + order.getId() + ", Paid: " + order.isPaid()));
+            // 6. Fetch orders by pharmacist ID
+            System.out.println("=== 6. Fetching Orders by Pharmacist/User ID: " + pharmacistId + " ===");
+            List<OrderResponse> ordersByUser = orderFetcher.getOrdersByUserId(pharmacistId);
+            ordersByUser.forEach(order -> System.out.println("  ID: " + order.getId() + ", Paid: " + order.isPaid()));
             System.out.println();
 
         } catch (IOException | InterruptedException e) {
-            System.err.println("Error during API call: " + e.getMessage());
+            System.err.println("IO/Network Error: " + e.getMessage());
             e.printStackTrace();
         } catch (RuntimeException e) {
-            System.err.println("Backend Error: " + e.getMessage());
+            System.err.println("API Error: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
 }
