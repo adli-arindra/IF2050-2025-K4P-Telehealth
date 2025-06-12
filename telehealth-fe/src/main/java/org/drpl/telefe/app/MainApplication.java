@@ -31,12 +31,6 @@ public class MainApplication extends Application {
         this.model = new Model();
 
         AuthFetcher authFetcher = new AuthFetcher();
-        try {
-            User user = authFetcher.getUserById(1);
-            model.setCurrentUser(user);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
         initRootLayout();
     }
