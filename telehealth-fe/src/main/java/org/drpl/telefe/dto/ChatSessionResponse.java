@@ -49,4 +49,14 @@ public class ChatSessionResponse {
     public void setParticipantIds(List<Long> participantIds) {
         this.participantIds = participantIds;
     }
+
+    @Override
+    public String toString() {
+        return "ChatSessionResponse{" +
+                "id=" + id +
+                ", sessionName='" + sessionName + '\'' +
+                ", createdDate=" + createdDate +
+                ", participantIds=" + participantIds +
+                '}';
+    }
 }

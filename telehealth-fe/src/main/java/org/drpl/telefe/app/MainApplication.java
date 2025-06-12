@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.Objects;
 
 import org.drpl.telefe.Global;
+import org.drpl.telefe.domain.User;
+import org.drpl.telefe.fetcher.AuthFetcher;
 
 public class MainApplication extends Application {
 
@@ -27,6 +29,14 @@ public class MainApplication extends Application {
 
         this.primaryStage.setResizable(false);
         this.model = new Model();
+
+        AuthFetcher authFetcher = new AuthFetcher();
+        try {
+            User user = authFetcher.getUserById(1);
+            model.setCurrentUser(user);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         initRootLayout();
     }
@@ -58,6 +68,10 @@ public class MainApplication extends Application {
 
     public void setPageContent(javafx.scene.Node pageContent) {
         rootLayout.setCenter(pageContent);
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
     }
 
     public static void main(String[] args) {

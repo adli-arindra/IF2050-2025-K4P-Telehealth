@@ -1,23 +1,30 @@
 package org.drpl.telefe.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.drpl.telefe.domain.Prescription;
+
 import java.time.LocalDateTime;
 
 public class OrderResponse {
     private Long id;
     private Long patientId;
     private Long pharmacistId;
-    private Long prescriptionId;
+    private Prescription prescription;
     private LocalDateTime orderDate;
+
+    @JsonProperty("isPaid")
     private boolean paid;
-    private double totalPrice; // From calculateTotalPrice()
+
+    private double totalPrice;
 
     public OrderResponse() {}
 
-    public OrderResponse(Long id, Long patientId, Long pharmacistId, Long prescriptionId, LocalDateTime orderDate, boolean paid, double totalPrice) {
+    public OrderResponse(Long id, Long patientId, Long pharmacistId, Prescription prescription,
+                         LocalDateTime orderDate, boolean paid, double totalPrice) {
         this.id = id;
         this.patientId = patientId;
         this.pharmacistId = pharmacistId;
-        this.prescriptionId = prescriptionId;
+        this.prescription = prescription;
         this.orderDate = orderDate;
         this.paid = paid;
         this.totalPrice = totalPrice;
@@ -35,8 +42,8 @@ public class OrderResponse {
         return pharmacistId;
     }
 
-    public Long getPrescriptionId() {
-        return prescriptionId;
+    public Prescription getPrescription() {
+        return prescription;
     }
 
     public LocalDateTime getOrderDate() {
@@ -63,8 +70,8 @@ public class OrderResponse {
         this.pharmacistId = pharmacistId;
     }
 
-    public void setPrescriptionId(Long prescriptionId) {
-        this.prescriptionId = prescriptionId;
+    public void setPrescription(Prescription prescription) {
+        this.prescription = prescription;
     }
 
     public void setOrderDate(LocalDateTime orderDate) {

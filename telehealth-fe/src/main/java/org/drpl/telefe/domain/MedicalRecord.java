@@ -1,13 +1,16 @@
 package org.drpl.telefe.domain;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class MedicalRecord {
     private String diagnosis;
     private String treatment;
-    private LocalDateTime recordDate;
+    private Date recordDate;
 
-    public MedicalRecord(String diagnosis, String treatment, LocalDateTime recordDate) {
+    public MedicalRecord() {};
+
+    public MedicalRecord(String diagnosis, String treatment, Date recordDate) {
         this.diagnosis = diagnosis;
         this.treatment = treatment;
         this.recordDate = recordDate;
@@ -29,11 +32,11 @@ public class MedicalRecord {
         this.treatment = treatment;
     }
 
-    public LocalDateTime getRecordDate() {
+    public Date getRecordDate() {
         return recordDate;
     }
 
-    public void setRecordDate(LocalDateTime recordDate) {
+    public void setRecordDate(Date recordDate) {
         this.recordDate = recordDate;
     }
 }
