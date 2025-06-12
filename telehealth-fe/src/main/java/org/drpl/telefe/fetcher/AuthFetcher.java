@@ -1,8 +1,10 @@
 package org.drpl.telefe.fetcher;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.drpl.telefe.dto.*;
 import org.drpl.telefe.domain.User;
 import org.drpl.telefe.Global;
@@ -17,7 +19,7 @@ public class AuthFetcher {
     private static final String BASE_URL = Global.BASE_URL + "/auth";
     private final ObjectMapper objectMapper = Global.getObjectMapper();
 
-    public User login(String email, String password) throws IOException {
+    public LoginResponse login(String email, String password) throws IOException {
         AuthRequest request = new AuthRequest(email, password);
         String jsonRequest = objectMapper.writeValueAsString(request);
 
@@ -26,11 +28,21 @@ public class AuthFetcher {
 
         int status = conn.getResponseCode();
         if (status == 200) {
-            return objectMapper.readValue(HttpUtils.readResponse(conn), User.class);
+            String response = HttpUtils.readResponse(conn);
+            JsonNode root = objectMapper.readTree(response);
+
+            UserType userType = UserType.valueOf(root.get("userType").asText());
+
+            ((ObjectNode) root).remove("userType");
+            User user = objectMapper.treeToValue(root, User.class);
+
+            return new LoginResponse(user, userType);
         } else {
             throw new IOException("Login failed with status: " + status + " - " + HttpUtils.readError(conn));
         }
     }
+
+
 
     public User register(DoctorSignUpRequest signUpRequest) throws IOException {
         String jsonRequest = objectMapper.writeValueAsString(signUpRequest);
