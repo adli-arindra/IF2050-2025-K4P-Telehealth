@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.drpl.telefe.app.controller.patient.MedicalRecordController"
+            style="-fx-background-color: #E2F2FE; -fx-padding: 20;"> <!-- Light blue background for the entire page -->
+
+    <!-- Exit Button -->
+    <top>
+        <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 20 0;"> <!-- Add bottom padding for spacing -->
+            <Button onAction="#toBack" style="-fx-background-color: #FFB703; -fx-background-radius: 25; -fx-padding: 10;">
+                <graphic>
+                    <ImageView fitWidth="24" fitHeight="24">
+                        <!-- Assuming arrow.png should be white or a color that contrasts with yellow -->
+                        <Image url="@/images/arrow.png" preserveRatio="true"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
+    </top>
+
+    <!-- Main Content -->
+    <center>
+        <StackPane alignment="TOP_CENTER"> <!-- Align content to top center within stackpane -->
+            <!-- Record Display Box -->
+            <VBox fx:id="recordDisplayBox" spacing="15" visible="false"
+                  alignment="TOP_LEFT"
+                  style="-fx-background-color: #FFFFFF; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 5);"
+                  maxWidth="400"> <!-- Add styling for card-like appearance -->
+                <Label text="Your Medical Record" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #023047; -fx-padding: 0 0 10 0;"/>
+                <Label fx:id="diagnosisLabel" style="-fx-font-size: 14px; -fx-text-fill: #333333;"/>
+                <Label fx:id="treatmentLabel" style="-fx-font-size: 14px; -fx-text-fill: #333333;"/>
+                <Label fx:id="recordDateLabel" style="-fx-font-size: 12px; -fx-text-fill: #666666; -fx-padding: 10 0 0 0;"/>
+            </VBox>
+
+            <!-- Record Form Box -->
+            <VBox fx:id="recordFormBox" spacing="15" visible="false"
+                  alignment="TOP_LEFT"
+                  style="-fx-background-color: #FFFFFF; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 5);"
+                  maxWidth="400"> <!-- Add styling for card-like appearance -->
+                <Label text="Enter Medical Record" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #023047; -fx-padding: 0 0 10 0;"/>
+                <TextField fx:id="diagnosisField" promptText="Diagnosis"
+                           style="-fx-background-color: #F0F8FF; -fx-border-color: #CCCCCC; -fx-border-radius: 8; -fx-padding: 10; -fx-font-size: 14px; -fx-text-fill: #023047; -fx-prompt-text-fill: #888888;"/>
+                <TextField fx:id="treatmentField" promptText="Treatment"
+                           style="-fx-background-color: #F0F8FF; -fx-border-color: #CCCCCC; -fx-border-radius: 8; -fx-padding: 10; -fx-font-size: 14px; -fx-text-fill: #023047; -fx-prompt-text-fill: #888888;"/>
+                <Button text="Save" onAction="#handleSave"
+                        style="-fx-background-color: #FFB703; -fx-text-fill: #FFFFFF; -fx-background-radius: 10; -fx-padding: 10 25; -fx-font-weight: bold; -fx-font-size: 16px; -fx-cursor: hand;"/>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

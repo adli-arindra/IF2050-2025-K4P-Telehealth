@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<VBox fx:controller="org.drpl.telefe.app.controller.pharmacist.OrdersPageController"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="20"
+      alignment="TOP_CENTER"
+      style="-fx-background-color: #E2F2FE; -fx-padding: 0;"> <!-- Overall light blue background -->
+
+    <!-- Top Bar: Back Button and Title -->
+    <StackPane alignment="CENTER" prefHeight="80" style="-fx-background-color: transparent;">
+        <HBox alignment="CENTER_LEFT">
+            <Button fx:id="backButton" onAction="#toBack" style="-fx-background-color: #FFB703; -fx-background-radius: 25; -fx-padding: 10;">
+                <graphic>
+                    <ImageView fitHeight="24" fitWidth="24">
+                        <Image url="@/images/arrow.png" />
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
+        <Label text="Pharmacist Orders"
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #023047;" />
+    </StackPane>
+
+    <!-- Orders List Container (Card-like) -->
+    <VBox spacing="10" alignment="TOP_LEFT"
+          style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 0);"
+          maxWidth="450">
+        <Label text="Incoming Orders"
+               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #023047;" />
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="400"
+                    style="-fx-background-color: transparent; -fx-border-color: transparent;">
+            <VBox fx:id="orderListContainer" spacing="10" style="-fx-padding: 0;" />
+        </ScrollPane>
+    </VBox>
+
+    <!-- Order Detail Display (Card-like) -->
+    <VBox spacing="10" alignment="TOP_LEFT"
+          style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 0);"
+          maxWidth="450">
+        <Label text="Order Details:"
+               style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #023047;" />
+        <Label fx:id="orderDetailLabel"
+               wrapText="true"
+               style="-fx-font-size: 14px; -fx-text-fill: #333333;" />
+    </VBox>
+
+</VBox>
